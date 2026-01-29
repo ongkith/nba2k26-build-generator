@@ -554,6 +554,141 @@ function formatBuildText(build){
   const t=build.tendencies;
   const b=build.badges;
 
+  // Tendencies grouped into sections (with spacing)
+  const TEND_SECTIONS = [
+    {
+      title: "JUMP SHOOTING TENDENCIES",
+      keys: [
+        "Step Through Shot",
+        "Shot Under The Basket",
+        "Shot Close",
+        "Shot Mid-Range",
+        "Spot Up Shot Mid-Range",
+        "Off Screen Shot Mid-Range",
+        "Shot 3PT",
+        "Spot Up Shot 3PT",
+        "Off Screen Shot 3PT",
+        "Contested Jumper 3PT",
+        "Contested Jumper Mid-Range",
+        "Step back Jumper 3PT",
+        "Step back Jumper Mid-Range",
+        "Spin Jumper",
+        "Transition Pull-up 3PT",
+        "Drive Pull-up 3PT",
+        "Drive Pull-up Mid-Range",
+        "Use Glass",
+      ],
+    },
+    {
+      title: "LAYUPS AND DUNKS TENDENCIES",
+      keys: [
+        "Driving Lay-up",
+        "Standing Dunk",
+        "Driving Dunk",
+        "Flashy Dunk",
+        "Alley-Oop",
+        "Putback",
+        "Crash",
+        "Spin Layup",
+        "Hop Step Layup",
+        "Euro Step Layup",
+        "Floater",
+      ],
+    },
+    {
+      title: "DRIVE SETUP TENDENCIES",
+      keys: [
+        "Triple Threat Pump Fake",
+        "Triple Threat Jab Step",
+        "Triple Threat Idle",
+        "Triple Threat Shoot",
+        "Setup with Size up",
+        "Setup with Hesitation",
+        "No Setup Dribble",
+      ],
+    },
+    {
+      title: "DRIVING TENDENCIES",
+      keys: [
+        "Drive",
+        "Spot-up Drive",
+        "Off Screen Drive",
+        "Drive Right",
+        "Driving Crossover",
+        "Driving Spin",
+        "Driving Step back",
+        "Driving Half-spin",
+        "Driving Double Crossover",
+        "Driving Behind the Back",
+        "Driving Dribble Hesitation",
+        "Driving In and Out",
+        "No Driving Dribble Moves",
+        "Attack Strong on Drive",
+      ],
+    },
+    {
+      title: "PASSING TENDENCIES",
+      keys: [
+        "Dish to Open Man",
+        "Flashy Pass",
+        "Alley-Oop Pass",
+      ],
+    },
+    {
+      title: "POST GAME TENDENCIES",
+      keys: [
+        "Post Up",
+        "Post Shimmy Shot",
+        "Post Face Up",
+        "Post Back Down",
+        "Post Aggressive Backdown",
+        "Shoot From Post",
+        "Post Hook",
+        "Post Fade",
+        "Post Up and Under",
+        "Post Hop Shot",
+        "Post Step Back Shot",
+        "Post Drive",
+        "Post Spin",
+        "Post Drop Step",
+        "Post Hop Step",
+      ],
+    },
+    {
+      title: "FREELANCE TENDENCIES",
+      keys: [
+        "Shot",
+        "Touches",
+        "Roll vs Pop",
+        "Transition Spot-up",
+        "ISO vs Elite Defender",
+        "ISO vs Good Defender",
+        "ISO vs Average Defender",
+        "ISO vs Poor Defender",
+        "Play Discipline",
+      ],
+    },
+    {
+      title: "DEFENSE TENDENCIES",
+      keys: [
+        "Pass Interception",
+        "Take Charge",
+        "On-Ball Steal",
+        "Contest Shot",
+        "Block Shot",
+        "Foul",
+        "Hard Foul",
+      ],
+    },
+  ];
+
+  // Group badges by category
+  const badgeGroups = {};
+  for (const x of b){
+    if(!badgeGroups[x.category]) badgeGroups[x.category]=[];
+    badgeGroups[x.category].push(x);
+  }
+
   const lines=[];
   lines.push(`Position: ${p.position}  Secondary Position: ${p.secondaryPosition}`);
   lines.push(`Height: ${p.height}  Weight: ${p.weight}  Wingspan: ${p.wingspan}`);
@@ -583,13 +718,30 @@ function formatBuildText(build){
   for(const k of ATTR_FIELDS.MISC) lines.push(`• ${k}: ${a.MISC[k]}`);
   lines.push("");
 
+  // Tendencies now broken into sections + spacing
   lines.push("TENDENCIES");
-  // Print in the same order as you provided (by iterating TENDENCY_RANGES keys)
-  for(const k of Object.keys(TENDENCY_RANGES)) lines.push(`• ${k}: ${t[k]}`);
   lines.push("");
+  for (const sec of TEND_SECTIONS){
+    lines.push(sec.title);
+    for (const k of sec.keys){
+      lines.push(`• ${k}: ${t[k]}`);
+    }
+    lines.push(""); // blank line after each section
+  }
 
+  // Badges now grouped by category
   lines.push("BADGES");
-  for(const x of b) lines.push(`• ${x.name} - ${x.level}`);
+  lines.push("");
+  const order = ["Shooting","Finishing","Playmaking","Defense","Rebounding","General"];
+  for (const cat of order){
+    if(!badgeGroups[cat] || badgeGroups[cat].length===0) continue;
+    lines.push(`${cat}:`);
+    for (const x of badgeGroups[cat]){
+      lines.push(`• ${x.name} - ${x.level}`);
+    }
+    lines.push(""); // spacing between categories
+  }
+
   return lines.join("\n");
 }
 
