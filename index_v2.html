@@ -2,52 +2,184 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NBA2K26 CPU vs CPU Build Generator (v2)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NBA2K26 CPU vs CPU Build Generator (Realism Update)</title>
   <style>
     :root{
-      --bg:#0b0b0f; --panel:#11111a; --border:#2a2a34;
-      --text:#f2f2f2; --muted:#b6b6c6; --accent:#3b82f6;
+      --bg:#0b0b0f;
+      --panel:#11111a;
       --panel2:#0a1222;
+      --border:#2a2a34;
+      --text:#f2f2f2;
+      --muted:#b6b6c6;
+      --accent:#3b82f6;
+      --success:#16a34a;
+      --warning:#f59e0b;
     }
+
     *{box-sizing:border-box;}
-    body{margin:0;padding:18px;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;}
-    header{padding:18px;border:1px solid var(--border);background:linear-gradient(180deg,#0f0f16 0%, #0b0b0f 100%);border-radius:14px;}
-    h1{margin:0 0 8px 0;font-size:20px;}
-    p{margin:0;color:var(--muted);font-size:13px;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px;margin-top:14px;}
-    .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px;}
-    h2{margin:0 0 10px 0;font-size:16px;}
-    label{display:block;margin:10px 0 6px;font-size:13px;color:#d8d8ee;}
-    select,input[type="text"]{
-      width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);
-      background:#0f0f16;color:var(--text);outline:none;
+
+    body{
+      margin:0;
+      padding:18px;
+      font-family:Arial,Helvetica,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.45;
     }
+
+    header{
+      padding:18px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg,#0f0f16 0%,#0b0b0f 100%);
+      border-radius:14px;
+    }
+
+    h1{margin:0 0 8px;font-size:20px;}
+    h2{margin:0 0 10px;font-size:16px;}
+    p{margin:0;color:var(--muted);font-size:13px;}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+    }
+
+    label{
+      display:block;
+      margin:10px 0 6px;
+      font-size:13px;
+      color:#d8d8ee;
+    }
+
+    select,
+    input[type="text"]{
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#0f0f16;
+      color:var(--text);
+      outline:none;
+    }
+
+    select:focus,
+    input[type="text"]:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 2px rgba(59,130,246,.18);
+    }
+
     .muted{color:var(--muted);font-size:12px;}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .pillbox{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid var(--border);background:#0f0f16;cursor:pointer;user-select:none;font-size:12px;}
-    .pill input{transform:translateY(1px);}
-    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
-    button{width:100%;padding:12px;border-radius:12px;border:0;font-weight:800;cursor:pointer;}
-    .primary{background:var(--accent);color:#fff;}
-    .ghost{background:#1a1a25;color:var(--text);border:1px solid var(--border);}
-    pre{
-      background:var(--panel2);border:1px solid #1e293b;border-radius:14px;padding:14px;
-      white-space:pre-wrap;overflow:auto;max-height:72vh;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size:12px;margin:0;
+    .hidden{display:none !important;}
+
+    .pillbox{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
     }
-    .notice{margin-top:10px;padding:10px;border-radius:12px;border:1px solid #24324a;background:#0f172a;color:#d7e5ff;font-size:12px;}
-    footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center;}
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#0f0f16;
+      cursor:pointer;
+      user-select:none;
+      font-size:12px;
+    }
+
+    .pill:hover{border-color:#4b5563;}
+    .pill input{transform:translateY(1px);}
+
+    .actions{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:14px;
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:0;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    button:disabled{opacity:.55;cursor:not-allowed;}
+    .primary{background:var(--accent);color:#fff;}
+    .secondary{background:var(--success);color:#fff;}
+    .ghost{background:#1a1a25;color:var(--text);border:1px solid var(--border);}
+
+    pre{
+      background:var(--panel2);
+      border:1px solid #1e293b;
+      border-radius:14px;
+      padding:14px;
+      white-space:pre-wrap;
+      overflow:auto;
+      max-height:76vh;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:12px;
+      margin:0;
+    }
+
+    .notice{
+      margin-top:10px;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid #24324a;
+      background:#0f172a;
+      color:#d7e5ff;
+      font-size:12px;
+    }
+
+    .notice.success{
+      border-color:#14532d;
+      background:#052e16;
+      color:#dcfce7;
+    }
+
+    .notice.warning{
+      border-color:#78350f;
+      background:#451a03;
+      color:#fef3c7;
+    }
+
+    footer{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+
+    @media (max-width:720px){
+      body{padding:10px;}
+      .row,.actions{grid-template-columns:1fr;}
+    }
   </style>
 </head>
 <body>
 <header>
-  <h1>NBA2K26 CPU vs CPU Build Generator (v2)</h1>
+  <h1>NBA2K26 CPU vs CPU Build Generator — Realism Update</h1>
   <p>
-    Choose <b>Role</b>, <b>Position</b>, <b>Preset</b> and up to <b>4 Play Types</b>.
-    Then everything else auto-generates. Output is in the “2K-style” text format:
-    Height in feet/inches, Weight in lbs, Wingspan in feet/inches.
+    Choose a <b>Role</b>, <b>Position</b>, <b>Preset</b>, and up to <b>4 Play Types</b>.
+    The generator now protects a player's NBA-level strengths, creates meaningful weaknesses,
+    raises stamina for every role, and gives draftees a realistic reason they reached the NBA.
   </p>
 </header>
 
@@ -62,10 +194,10 @@
       <div>
         <label for="roleTier">Role</label>
         <select id="roleTier">
-          <option value="star">Star Player (86–92 OVR, up to 15 badges)</option>
-          <option value="key">Key Role Player (80–85 OVR, up to 10 badges)</option>
-          <option value="role">Role Player (74–79 OVR, up to 7 badges)</option>
-          <option value="draft">Draftee (68–77 OVR, up to 6 badges)</option>
+          <option value="star">Star Player (86–92 target OVR, 10–15 badges)</option>
+          <option value="key">Key Role Player (80–85 target OVR, 7–10 badges)</option>
+          <option value="role">Role Player (74–79 target OVR, 4–7 badges)</option>
+          <option value="draft">Draftee (68–77 target OVR, 2–6 badges)</option>
         </select>
       </div>
       <div>
@@ -94,18 +226,40 @@
       </div>
     </div>
 
+    <div id="draftTierWrap" class="hidden">
+      <label for="draftTier">Draft Tier</label>
+      <select id="draftTier">
+        <option value="auto">Auto — realistic weighted selection</option>
+        <option value="generational">Generational Prospect (76–77 OVR; two major strengths)</option>
+        <option value="lottery">Lottery Prospect (73–77 OVR; one premium NBA skill)</option>
+        <option value="first">First-Round Prospect (71–75 OVR; clear NBA role)</option>
+        <option value="second">Second-Round Prospect (68–72 OVR; specialist or project)</option>
+      </select>
+      <div class="muted">This appears only when Role is set to Draftee.</div>
+    </div>
+
     <label>Play Types (choose up to 4)</label>
-    <div class="muted">Click to select. The generator uses your “guidelines, not hard caps” philosophy.</div>
+    <div class="muted">
+      These influence the player's identity. They are guidelines, not hard attribute caps.
+    </div>
     <div id="playTypes" class="pillbox"></div>
     <div class="notice" id="playTypeNotice">Selected: <b>0</b> / 4</div>
 
     <div class="actions">
       <button class="primary" id="generateBtn" type="button">Generate Build</button>
+      <button class="secondary" id="copyBtn" type="button" disabled>Copy Output</button>
       <button class="ghost" id="resetBtn" type="button">Reset</button>
     </div>
 
+    <div class="notice" id="statusNotice">
+      <b>OVR note:</b> The displayed OVR is this generator's target estimate. NBA 2K may calculate a
+      slightly different OVR after you enter the ratings, so Intangibles is used as a balancing value
+      without flattening the player's best skills.
+    </div>
+
     <div class="notice">
-      <b>Safety note:</b> This file is meant to be tested as <b>index_v2.html</b> first, so your existing <b>index.html</b> stays safe.
+      <b>Safe beginner workflow:</b> test this as <b>index_v2.html</b> first. After you approve it,
+      place the same code in <b>index.html</b> to make it the repository's main page.
     </div>
   </section>
 
@@ -118,11 +272,10 @@
 <footer>© <span id="year"></span> ongkith — NBA2K26 Build Generator</footer>
 
 <script>
-/* =========================
-   1) YOUR DATA (lists)
-   ========================= */
+/* =========================================================
+   1) DATA
+   ========================================================= */
 
-// Play Types (max 4)
 const PLAY_TYPES = [
   "Isolation","Isolation Point","Isolation Wing",
   "P&R Ball Handler","P&R Point","P&R Wing","P&R Roll Man",
@@ -131,7 +284,6 @@ const PLAY_TYPES = [
   "Mid Range","3PT"
 ];
 
-// Presets by Position (your lists)
 const PRESETS_BY_POS = {
   PG: ["Balanced","Random (AI generated)","2-Way 3PT Slasher","Inside-Out Playmaker","Ankle Taker","2-Way 3-Level Shot Creator","Iso Sniper","2-Way Inside-Out Playmaker","Playmaking 3PT Slasher","Inside-Out Slasher","2-Way Playmaking Creator","3-Level Scorer","Playmaking Shot Creator","2-Way 3PT-Sniping High Flyer","Physical 2-Way 3PT Slasher","2-Way Mid-Post Creator","Shot-Erasing 3PT Slasher","Physical 2-Way Iso Sniper","Thieving Inside-Out Creator","Explosive 2-Way 3PT Creator","Crafty 3-Level Scorer","2-Way Mid-Paint Maestro"],
   SG: ["Balanced","Random (AI generated)","2-Way 3PT-Sniping High Flyer","Shot-Erasing 3PT Slasher","2-Way 3-Level Shot Creator","Clamp Thief","2-Way Inside-Out Combo Guard","Iso Savant","Ball-Hawking 3 & D Two Guard","Physical 2-Way Iso Sniper","2-Way Bulldozer","Inside-Out Slashing Eraser","Ball-Hawking 3-Level Creator","2-Way Mid-Range Menace","Crafty Walking Bucket","Ankle Taker","2-Way 3PT-Sniping Layup Artist","Physical 2-Way 3PT Slasher","Edge Enforcer","2-Way High-Flying Post Scorer","Disruptive Lockdown","Rim-Reaping Slasher"],
@@ -140,7 +292,6 @@ const PRESETS_BY_POS = {
   C: ["Balanced","Random (AI generated)","The Anomaly","2-Way Triple-Double Threat","Shot-Erasing 3-Level Crasher","Yamming Force of Nature","Post-Scoring Stretch Eraser","Physical Edge Enforcer","Inside-Out Playmaking Eraser","Rim-Reaping Crafty Paint Dimer","Backline Post Bully Stretch","Glass Guardian Diming Dunker","Crafty 3-Level Glass Guardian","Board-Hunting 3-Level Bully","2-Way Iso Savant","Physical Putback Dime-Dropper","Rim-Rocking Stretch Slasher","Board-Enforcing Stretch Riser","Pick & Pop Glass Visionary","Backline Power Dunker","2-Way Mid-Paint Phenom","Rim-Reaping Poster Dunker"]
 };
 
-// Badge lists (ONLY these)
 const BADGES = {
   Shooting: ["Deadeye","Limitless Range","Mini Marksman","Set Shot Specialist","Shifty Shooter"],
   Finishing: ["Aerial Wizard","Float Game","Hook Specialist","Layup Mixmaster","Paint Prodigy","Physical Finisher","Post Fade Phenom","Post Powerhouse","Post Up Poet","Posterizer","Rise Up"],
@@ -150,7 +301,6 @@ const BADGES = {
   General: ["Brick Wall","Slippery Off Ball","Pogo Stick"]
 };
 
-// Attribute fields (ALL fields you listed)
 const ATTR_FIELDS = {
   OFFENSE: ["Driving Layup","Post Fade","Post Hook","Post Control","Draw Foul","Close Shot","Mid-Range Shot","Three-Point Shot","Free Throw","Ball Handle","Pass IQ","Pass Accuracy","Offensive Rebound","Standing Dunk","Driving Dunk","Shot IQ","Pass Vision","Hands"],
   DEFENSE: ["Defensive Rebound","Interior Defense","Perimeter Defense","Block","Steal"],
@@ -159,7 +309,6 @@ const ATTR_FIELDS = {
   MISC: ["Intangibles","Potential"]
 };
 
-// Tendencies guideline ranges (ALL you listed)
 const TENDENCY_RANGES = {
   "Step Through Shot":[10,45],
   "Shot Under The Basket":[15,40],
@@ -254,40 +403,185 @@ const TENDENCY_RANGES = {
   "Hard Foul":[10,25]
 };
 
-// Role rules (OVR + badge max)
 const ROLE_RULES = {
-  star:{ovr:[86,92],badgeMax:15},
-  key:{ovr:[80,85],badgeMax:10},
-  role:{ovr:[74,79],badgeMax:7},
-  draft:{ovr:[68,77],badgeMax:6}
+  star:{label:"Star Player",ovr:[86,92],badges:[10,15],stamina:[93,99],hustle:[85,98],mental:[80,96],potential:[90,99]},
+  key:{label:"Key Role Player",ovr:[80,85],badges:[7,10],stamina:[89,97],hustle:[82,96],mental:[73,90],potential:[84,96]},
+  role:{label:"Role Player",ovr:[74,79],badges:[4,7],stamina:[86,94],hustle:[79,94],mental:[65,83],potential:[77,92]},
+  draft:{label:"Draftee",ovr:[68,77],badges:[2,6],stamina:[82,92],hustle:[80,95],mental:[53,75],potential:[78,99]}
 };
 
-// Physical ranges by position (feet/inches output later)
+const DRAFT_TIERS = {
+  generational:{label:"Generational Prospect",ovr:[76,77],base:[62,69],primary:[89,94],secondary:[82,89],tertiary:[74,83],weak:[45,59],potential:[95,99],badges:[5,6],nbaFloor:88,supportFloor:79,strengthCount:2},
+  lottery:{label:"Lottery Prospect",ovr:[73,77],base:[59,67],primary:[85,91],secondary:[78,86],tertiary:[70,79],weak:[43,58],potential:[90,98],badges:[4,6],nbaFloor:85,supportFloor:76,strengthCount:1},
+  first:{label:"First-Round Prospect",ovr:[71,75],base:[56,64],primary:[82,88],secondary:[74,82],tertiary:[66,75],weak:[40,56],potential:[84,95],badges:[3,5],nbaFloor:82,supportFloor:73,strengthCount:1},
+  second:{label:"Second-Round Prospect",ovr:[68,72],base:[52,61],primary:[79,85],secondary:[69,78],tertiary:[61,71],weak:[38,54],potential:[78,91],badges:[2,4],nbaFloor:79,supportFloor:69,strengthCount:1}
+};
+
+const ROLE_SKILL_PROFILES = {
+  star:{base:[76,84],primary:[93,99],secondary:[87,94],tertiary:[80,89],weak:[62,76],nbaFloor:92,supportFloor:83},
+  key:{base:[69,78],primary:[88,95],secondary:[80,89],tertiary:[73,83],weak:[53,68],nbaFloor:87,supportFloor:77},
+  role:{base:[61,71],primary:[83,91],secondary:[75,84],tertiary:[67,77],weak:[44,61],nbaFloor:82,supportFloor:72}
+};
+
 const PHYS_BY_POS = {
-  PG:{height:[73,77], weight:[175,215], wingspan:[73,80]},
-  SG:{height:[75,79], weight:[185,225], wingspan:[76,83]},
-  SF:{height:[78,82], weight:[205,245], wingspan:[80,88]},
-  PF:{height:[81,85], weight:[225,265], wingspan:[84,92]},
-  C :{height:[84,88], weight:[240,285], wingspan:[88,96]}
+  PG:{height:[73,77],weight:[175,215],wingspan:[73,80]},
+  SG:{height:[75,79],weight:[185,225],wingspan:[76,83]},
+  SF:{height:[78,82],weight:[205,245],wingspan:[80,88]},
+  PF:{height:[81,85],weight:[225,265],wingspan:[84,92]},
+  C:{height:[84,88],weight:[240,285],wingspan:[88,96]}
 };
 
-/* =========================
-   2) helpers
-   ========================= */
-function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
-function pickOne(arr){ return arr[randInt(0,arr.length-1)]; }
-function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
-function inchesToFeet(inches){ const ft=Math.floor(inches/12); const inch=inches%12; return `${ft}'${inch}"`; }
+const PHYSICAL_RANGES = {
+  PG:{speed:[84,96],vertical:[68,92],strength:[43,70],agility:[84,96]},
+  SG:{speed:[81,94],vertical:[70,94],strength:[49,76],agility:[81,94]},
+  SF:{speed:[76,91],vertical:[68,92],strength:[59,84],agility:[76,91]},
+  PF:{speed:[69,85],vertical:[63,89],strength:[70,92],agility:[68,85]},
+  C:{speed:[61,79],vertical:[57,86],strength:[78,97],agility:[59,79]}
+};
+
+const FAMILY_LABELS = {
+  shoot3:"Three-Point Shooting",
+  mid:"Mid-Range Scoring",
+  finishing:"Rim Pressure and Finishing",
+  playmaking:"Playmaking",
+  perimeterDefense:"Perimeter Defense",
+  interiorDefense:"Interior Defense and Rim Protection",
+  rebounding:"Rebounding",
+  post:"Post Scoring"
+};
+
+const FAMILY_KEYS = Object.keys(FAMILY_LABELS);
+const OFFENSIVE_FAMILIES = ["shoot3","mid","finishing","playmaking","post"];
+const DEFENSIVE_FAMILIES = ["perimeterDefense","interiorDefense","rebounding"];
+
+const POSITION_FAMILY_BIAS = {
+  PG:{shoot3:3,mid:2,finishing:1,playmaking:8,perimeterDefense:2,interiorDefense:-18,rebounding:-14,post:-12},
+  SG:{shoot3:5,mid:3,finishing:3,playmaking:3,perimeterDefense:3,interiorDefense:-13,rebounding:-9,post:-8},
+  SF:{shoot3:3,mid:2,finishing:3,playmaking:0,perimeterDefense:4,interiorDefense:-4,rebounding:0,post:-1},
+  PF:{shoot3:0,mid:0,finishing:4,playmaking:-6,perimeterDefense:-1,interiorDefense:6,rebounding:8,post:5},
+  C:{shoot3:-8,mid:-4,finishing:6,playmaking:-10,perimeterDefense:-8,interiorDefense:10,rebounding:12,post:8}
+};
+
+const POSITION_IDENTITY_PREFERENCE = {
+  PG:{shoot3:5,mid:3,finishing:4,playmaking:8,perimeterDefense:3,interiorDefense:0,rebounding:0,post:1},
+  SG:{shoot3:7,mid:4,finishing:6,playmaking:4,perimeterDefense:4,interiorDefense:1,rebounding:1,post:1},
+  SF:{shoot3:5,mid:4,finishing:5,playmaking:3,perimeterDefense:6,interiorDefense:3,rebounding:3,post:2},
+  PF:{shoot3:3,mid:2,finishing:6,playmaking:2,perimeterDefense:3,interiorDefense:6,rebounding:7,post:5},
+  C:{shoot3:1,mid:1,finishing:7,playmaking:2,perimeterDefense:1,interiorDefense:8,rebounding:8,post:7}
+};
+
+const FAMILY_ATTRIBUTE_CANDIDATES = {
+  shoot3:["Three-Point Shot"],
+  mid:["Mid-Range Shot"],
+  finishing:["Driving Layup","Driving Dunk","Close Shot","Standing Dunk"],
+  playmaking:["Ball Handle","Pass Accuracy","Pass IQ","Pass Vision"],
+  perimeterDefense:["Perimeter Defense","Steal"],
+  interiorDefense:["Interior Defense","Block"],
+  rebounding:["Defensive Rebound","Offensive Rebound"],
+  post:["Post Control","Post Fade","Post Hook"]
+};
+
+const ATTRIBUTE_FAMILY = {
+  "Driving Layup":"finishing",
+  "Post Fade":"post",
+  "Post Hook":"post",
+  "Post Control":"post",
+  "Draw Foul":"finishing",
+  "Close Shot":"finishing",
+  "Mid-Range Shot":"mid",
+  "Three-Point Shot":"shoot3",
+  "Free Throw":"shoot3",
+  "Ball Handle":"playmaking",
+  "Pass IQ":"playmaking",
+  "Pass Accuracy":"playmaking",
+  "Offensive Rebound":"rebounding",
+  "Standing Dunk":"finishing",
+  "Driving Dunk":"finishing",
+  "Pass Vision":"playmaking",
+  "Hands":"playmaking",
+  "Defensive Rebound":"rebounding",
+  "Interior Defense":"interiorDefense",
+  "Perimeter Defense":"perimeterDefense",
+  "Block":"interiorDefense",
+  "Steal":"perimeterDefense",
+  "Pass Perception":"perimeterDefense",
+  "Help Defense IQ":"interiorDefense"
+};
+
+const OVR_WEIGHTS = {
+  PG:{shoot3:.16,mid:.08,finishing:.14,playmaking:.24,perimeterDefense:.13,interiorDefense:.01,rebounding:.02,post:.01,physical:.12,mental:.09},
+  SG:{shoot3:.18,mid:.09,finishing:.17,playmaking:.14,perimeterDefense:.14,interiorDefense:.02,rebounding:.03,post:.02,physical:.12,mental:.09},
+  SF:{shoot3:.14,mid:.09,finishing:.15,playmaking:.10,perimeterDefense:.14,interiorDefense:.07,rebounding:.08,post:.04,physical:.11,mental:.08},
+  PF:{shoot3:.10,mid:.07,finishing:.14,playmaking:.07,perimeterDefense:.08,interiorDefense:.15,rebounding:.14,post:.10,physical:.09,mental:.06},
+  C:{shoot3:.04,mid:.03,finishing:.15,playmaking:.06,perimeterDefense:.03,interiorDefense:.20,rebounding:.20,post:.14,physical:.09,mental:.06}
+};
+
+/* =========================================================
+   2) GENERAL HELPERS
+   ========================================================= */
+
+function randInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function randFloat(min,max){
+  return Math.random()*(max-min)+min;
+}
+
+function clamp(value,min,max){
+  return Math.max(min,Math.min(max,value));
+}
+
+function pickOne(arr){
+  return arr[randInt(0,arr.length-1)];
+}
+
+function average(values){
+  const valid=values.filter(Number.isFinite);
+  return valid.length ? valid.reduce((sum,value)=>sum+value,0)/valid.length : 0;
+}
+
+function shuffle(arr){
+  const copy=[...arr];
+  for(let i=copy.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]]=[copy[j],copy[i]];
+  }
+  return copy;
+}
+
+function weightedPick(entries){
+  const safe=entries.map(entry=>({
+    value:entry.value,
+    weight:Math.max(.01,entry.weight)
+  }));
+  const total=safe.reduce((sum,entry)=>sum+entry.weight,0);
+  let roll=Math.random()*total;
+  for(const entry of safe){
+    roll-=entry.weight;
+    if(roll<=0) return entry.value;
+  }
+  return safe[safe.length-1].value;
+}
+
+function inchesToFeet(inches){
+  const feet=Math.floor(inches/12);
+  const remainder=inches%12;
+  return `${feet}'${remainder}"`;
+}
+
+function applySoftCap(value,softCap,hardMaximum=99){
+  if(value<=softCap) return clamp(Math.round(value),25,hardMaximum);
+  const compressed=softCap+(value-softCap)*.35;
+  return clamp(Math.round(compressed),25,hardMaximum);
+}
 
 function autoSecondary(primary){
-  const map={PG:["SG"], SG:["PG","SF"], SF:["SG","PF"], PF:["SF","C"], C:["PF"]};
+  const map={PG:["SG"],SG:["PG","SF"],SF:["SG","PF"],PF:["SF","C"],C:["PF"]};
   return pickOne(map[primary]);
 }
 
-function bodyTypeFrom(pos, weightLb){
-  // Simple but realistic: heavier -> Burly, lighter -> Lean.
-  // Position shifts the threshold slightly.
+function bodyTypeFrom(pos,weightLb){
   if(pos==="PG"||pos==="SG"){
     if(weightLb>=205) return "Burly";
     if(weightLb<=185) return "Lean";
@@ -298,423 +592,1209 @@ function bodyTypeFrom(pos, weightLb){
     if(weightLb<=210) return "Lean";
     return "Athletic";
   }
-  // PF/C
   if(weightLb>=260) return "Burly";
   if(weightLb<=235) return "Lean";
   return "Athletic";
 }
 
-function badgeLevelForRole(roleKey){
-  const r=Math.random();
-  if(roleKey==="star") return r<0.45?"Gold":r<0.85?"Silver":"Bronze";
-  if(roleKey==="key")  return r<0.25?"Gold":r<0.80?"Silver":"Bronze";
-  if(roleKey==="role") return r<0.10?"Gold":r<0.55?"Silver":"Bronze";
-  return r<0.05?"Gold":r<0.40?"Silver":"Bronze";
+function generatePhysicalMeasurements(pos,roleKey){
+  const ranges=PHYS_BY_POS[pos];
+  const heightIn=randInt(ranges.height[0],ranges.height[1]);
+  const heightRatio=(heightIn-ranges.height[0])/Math.max(1,ranges.height[1]-ranges.height[0]);
+
+  // Taller players within a position normally weigh more. Draftees can be a little lighter
+  // because strength and body mass often improve after entering the NBA.
+  const expectedWeight=ranges.weight[0]+(ranges.weight[1]-ranges.weight[0])*(.25+heightRatio*.50);
+  let weightLb=Math.round(expectedWeight+randInt(-10,10));
+  if(roleKey==="draft") weightLb-=randInt(0,4);
+  weightLb=clamp(weightLb,ranges.weight[0],ranges.weight[1]);
+
+  // Prevent physically impossible results such as a 6'5" player with a 6'1" wingspan.
+  const minimumWingspan=Math.max(ranges.wingspan[0],heightIn+1);
+  const preferredWingspan=heightIn+randInt(2,7);
+  const wingspanIn=clamp(preferredWingspan,minimumWingspan,ranges.wingspan[1]);
+
+  return {heightIn,weightLb,wingspanIn};
 }
 
-/* =========================
-   3) Focus logic (Play Types influence)
-   ========================= */
-function focusFromPlayTypes(playTypes){
-  const f={shoot3:0, mid:0, iso:0, pnrH:0, pnrR:0, post:0, cut:0, handoff:0, play:0, def:0, reb:0, fin:0};
-  for(const pt of playTypes){
-    if(pt==="3PT"){ f.shoot3+=3; f.mid+=1; }
-    if(pt==="Mid Range"){ f.mid+=3; }
-    if(pt.includes("Isolation")){ f.iso+=3; f.play+=1; }
-    if(pt.includes("P&R") && (pt.includes("Ball Handler")||pt.includes("Point")||pt.includes("Wing"))){ f.pnrH+=3; f.play+=2; }
-    if(pt==="P&R Roll Man"){ f.pnrR+=4; f.fin+=2; f.reb+=1; }
-    if(pt.includes("Post Up")||pt.includes("Guard Post Up")){ f.post+=4; f.fin+=1; }
-    if(pt==="Cutter"){ f.cut+=4; f.fin+=2; }
-    if(pt.includes("Hand-off")){ f.handoff+=3; f.play+=1; }
+function resolveDraftTier(selection){
+  if(selection!=="auto") return selection;
+  return weightedPick([
+    {value:"generational",weight:3},
+    {value:"lottery",weight:22},
+    {value:"first",weight:45},
+    {value:"second",weight:30}
+  ]);
+}
+
+function roleProfile(roleKey,draftTierKey){
+  return roleKey==="draft" ? DRAFT_TIERS[draftTierKey] : ROLE_SKILL_PROFILES[roleKey];
+}
+
+function roleOvrRange(roleKey,draftTierKey){
+  return roleKey==="draft" ? DRAFT_TIERS[draftTierKey].ovr : ROLE_RULES[roleKey].ovr;
+}
+
+function roleBadgeRange(roleKey,draftTierKey){
+  return roleKey==="draft" ? DRAFT_TIERS[draftTierKey].badges : ROLE_RULES[roleKey].badges;
+}
+
+function createAttributeShell(){
+  const attrs={};
+  for(const [category,fields] of Object.entries(ATTR_FIELDS)){
+    attrs[category]={};
+    for(const field of fields) attrs[category][field]=25;
   }
-  return f;
+  return attrs;
+}
+
+const ATTRIBUTE_CATEGORY_LOOKUP=(()=>{
+  const lookup={};
+  for(const [category,fields] of Object.entries(ATTR_FIELDS)){
+    for(const field of fields) lookup[field]=category;
+  }
+  return lookup;
+})();
+
+function getAttr(attrs,name){
+  const category=ATTRIBUTE_CATEGORY_LOOKUP[name];
+  return category ? attrs[category][name] : 25;
+}
+
+function setAttr(attrs,name,value){
+  const category=ATTRIBUTE_CATEGORY_LOOKUP[name];
+  if(!category) return;
+  attrs[category][name]=clamp(Math.round(value),25,99);
+}
+
+function jitter(value,spread=4){
+  return value+randInt(-spread,spread);
+}
+
+/* =========================================================
+   3) FOCUS AND ARCHETYPE LOGIC
+   ========================================================= */
+
+const FOCUS_KEYS=[
+  "shoot3","mid","iso","pnrH","pnrR","post","cut","handoff",
+  "play","def","reb","fin","ath","strength","motor","steal","rimDef"
+];
+
+function emptyFocus(){
+  const focus={};
+  for(const key of FOCUS_KEYS) focus[key]=0;
+  return focus;
+}
+
+function mergeFocus(...sources){
+  const result=emptyFocus();
+  for(const source of sources){
+    for(const key of FOCUS_KEYS) result[key]+=(source?.[key]||0);
+  }
+  return result;
+}
+
+function focusFromPlayTypes(playTypes){
+  const focus=emptyFocus();
+  for(const playType of playTypes){
+    if(playType==="3PT"){
+      focus.shoot3+=4;
+      focus.mid+=1;
+    }
+    if(playType==="Mid Range") focus.mid+=4;
+    if(playType.includes("Isolation")){
+      focus.iso+=4;
+      focus.play+=1;
+      focus.fin+=1;
+    }
+    if(playType.includes("P&R")&&(playType.includes("Ball Handler")||playType.includes("Point")||playType.includes("Wing"))){
+      focus.pnrH+=4;
+      focus.play+=3;
+    }
+    if(playType==="P&R Roll Man"){
+      focus.pnrR+=5;
+      focus.fin+=3;
+      focus.reb+=1;
+    }
+    if(playType.includes("Post Up")||playType.includes("Guard Post Up")){
+      focus.post+=5;
+      focus.fin+=1;
+      focus.strength+=1;
+    }
+    if(playType==="Cutter"){
+      focus.cut+=5;
+      focus.fin+=3;
+      focus.ath+=1;
+    }
+    if(playType.includes("Hand-off")){
+      focus.handoff+=4;
+      focus.play+=2;
+      focus.shoot3+=1;
+    }
+  }
+  return focus;
 }
 
 function focusFromPresetName(preset){
-  const f={shoot3:0, mid:0, iso:0, pnrH:0, pnrR:0, post:0, cut:0, handoff:0, play:0, def:0, reb:0, fin:0};
-  const p=preset.toLowerCase();
-  if(p.includes("3pt")||p.includes("sniper")||p.includes("sharpshooter")||p.includes("shot hunter")) f.shoot3+=3;
-  if(p.includes("mid-range")||p.includes("3-level")) f.mid+=2;
-  if(p.includes("iso")||p.includes("ankle")) f.iso+=2;
-  if(p.includes("playmaking")||p.includes("dimer")||p.includes("point")) f.play+=2;
-  if(p.includes("slasher")||p.includes("high flyer")||p.includes("rim")||p.includes("yamming")||p.includes("poster")) f.fin+=2;
-  if(p.includes("lock")||p.includes("clamp")||p.includes("thief")||p.includes("shot-erasing")||p.includes("defender")) f.def+=3;
-  if(p.includes("glass")||p.includes("board")||p.includes("rebound")) f.reb+=3;
-  if(p.includes("post")) f.post+=2;
-  return f;
+  const focus=emptyFocus();
+  const name=preset.toLowerCase();
+
+  if(name==="balanced") return focus;
+
+  if(name.includes("2-way")) focus.def+=5;
+  if(name.includes("3pt")||name.includes("sniper")||name.includes("sharpshooter")||name.includes("shot hunter")||name.includes("stretch")) focus.shoot3+=4;
+  if(name.includes("mid-range")||name.includes("mid-paint")||name.includes("3-level")) focus.mid+=3;
+  if(name.includes("3-level")){
+    focus.shoot3+=2;
+    focus.fin+=2;
+  }
+  if(name.includes("iso")||name.includes("ankle")||name.includes("savant")||name.includes("creator")||name.includes("walking bucket")){
+    focus.iso+=3;
+    focus.play+=1;
+  }
+  if(name.includes("playmaking")||name.includes("dimer")||name.includes("diming")||name.includes("visionary")||name.includes("dime-dropper")||name.includes("point forward")||name.includes("point four")||name.includes("triple-double")) focus.play+=4;
+  if(name.includes("inside-out")){
+    focus.shoot3+=2;
+    focus.fin+=3;
+  }
+  if(name.includes("slasher")||name.includes("slashing")||name.includes("high flyer")||name.includes("high-flying")||name.includes("yamming")||name.includes("dunker")||name.includes("rim-rocking")||name.includes("rim-reaping")||name.includes("poster")||name.includes("paint prodigy")||name.includes("rim runner")) focus.fin+=4;
+  if(name.includes("lock")||name.includes("clamp")||name.includes("defender")||name.includes("disruptive")||name.includes("edge enforcer")) focus.def+=4;
+  if(name.includes("thief")||name.includes("thieving")||name.includes("ball-hawking")||name.includes("ball-snatching")){
+    focus.def+=3;
+    focus.steal+=4;
+  }
+  if(name.includes("shot-erasing")||name.includes("eraser")||name.includes("backline")||name.includes("glass guardian")){
+    focus.def+=2;
+    focus.rimDef+=4;
+  }
+  if(name.includes("glass")||name.includes("board")||name.includes("putback")||name.includes("crasher")) focus.reb+=4;
+  if(name.includes("post")) focus.post+=4;
+  if(name.includes("pick & pop")){
+    focus.shoot3+=3;
+    focus.pnrR+=2;
+  }
+  if(name.includes("bully")||name.includes("bulldozer")||name.includes("physical")||name.includes("force of nature")||name.includes("power dunker")){
+    focus.strength+=4;
+    focus.fin+=2;
+  }
+  if(name.includes("athletic")||name.includes("explosive")||name.includes("high flyer")||name.includes("high-flying")||name.includes("anomaly")) focus.ath+=4;
+  if(name.includes("crafty")){
+    focus.iso+=2;
+    focus.mid+=2;
+    focus.play+=1;
+  }
+  if(name.includes("maestro")){
+    focus.play+=2;
+    focus.post+=2;
+    focus.mid+=1;
+  }
+  if(name.includes("runner")) focus.motor+=2;
+
+  return focus;
 }
 
 function baselineFocusFromPosition(pos){
-  const f={shoot3:0, mid:0, iso:0, pnrH:0, pnrR:0, post:0, cut:0, handoff:0, play:0, def:0, reb:0, fin:0};
-  if(pos==="PG"){ f.play+=3; f.pnrH+=2; f.iso+=1; f.shoot3+=1; }
-  if(pos==="SG"){ f.shoot3+=2; f.mid+=1; f.iso+=1; f.def+=1; }
-  if(pos==="SF"){ f.mid+=1; f.shoot3+=1; f.def+=2; f.fin+=1; }
-  if(pos==="PF"){ f.reb+=2; f.def+=2; f.post+=1; f.fin+=1; }
-  if(pos==="C"){ f.reb+=3; f.def+=2; f.post+=2; f.fin+=2; }
-  return f;
+  const focus=emptyFocus();
+  if(pos==="PG"){
+    focus.play+=4;
+    focus.pnrH+=3;
+    focus.iso+=1;
+    focus.shoot3+=2;
+  }
+  if(pos==="SG"){
+    focus.shoot3+=3;
+    focus.mid+=2;
+    focus.iso+=2;
+    focus.fin+=1;
+    focus.def+=1;
+  }
+  if(pos==="SF"){
+    focus.shoot3+=2;
+    focus.mid+=1;
+    focus.fin+=2;
+    focus.def+=3;
+  }
+  if(pos==="PF"){
+    focus.reb+=3;
+    focus.def+=3;
+    focus.post+=2;
+    focus.fin+=2;
+    focus.rimDef+=1;
+  }
+  if(pos==="C"){
+    focus.reb+=4;
+    focus.def+=3;
+    focus.rimDef+=3;
+    focus.post+=3;
+    focus.fin+=3;
+    focus.pnrR+=2;
+  }
+  return focus;
 }
 
-function mergeFocus(a,b){
-  const out={};
-  for(const k of Object.keys(a)) out[k]=(a[k]||0)+(b[k]||0);
-  return out;
+function resolvePreset(pos,selectedPreset){
+  if(selectedPreset!=="Random (AI generated)"){
+    return {selected:selectedPreset,resolved:selectedPreset};
+  }
+  const candidates=(PRESETS_BY_POS[pos]||[]).filter(name=>name!=="Balanced"&&name!=="Random (AI generated)");
+  const resolved=candidates.length ? pickOne(candidates) : "Balanced";
+  return {selected:selectedPreset,resolved};
 }
 
-/* =========================
-   4) Attributes generator (fills EVERY field)
-   ========================= */
-function generateAttributes({roleKey,pos,focus,playInitiatorYes}){
-  const rules=ROLE_RULES[roleKey];
-  const ovr=randInt(rules.ovr[0], rules.ovr[1]);
-
-  const baseMin = roleKey==="star"?68 : roleKey==="key"?60 : roleKey==="role"?52 : 45;
-  const baseMax = roleKey==="star"?92 : roleKey==="key"?86 : roleKey==="role"?80 : 76;
-
-  function posBias(attr){
-    const big=(pos==="PF"||pos==="C");
-    const wing=(pos==="SF");
-    const guard=(pos==="PG"||pos==="SG");
-    let b=0;
-
-    if(["Ball Handle","Pass Accuracy","Pass IQ","Pass Vision","Hands"].includes(attr)){
-      if(guard) b+=8; if(wing) b+=3; if(big) b-=6;
-    }
-    if(attr==="Three-Point Shot"){ if(guard) b+=4; if(wing) b+=2; if(big) b-=2; }
-    if(["Mid-Range Shot","Free Throw","Shot IQ","Offensive Consistency"].includes(attr)){
-      if(guard) b+=2; if(big) b-=1;
-    }
-
-    if(["Close Shot","Standing Dunk","Post Control","Post Hook","Offensive Rebound","Draw Foul","Strength"].includes(attr)){
-      if(big) b+=8; if(guard) b-=3;
-    }
-
-    if(["Interior Defense","Block","Defensive Rebound"].includes(attr)){
-      if(big) b+=8; if(guard) b-=3;
-    }
-    if(["Perimeter Defense","Steal"].includes(attr)){
-      if(guard) b+=4; if(big) b-=4;
-    }
-
-    if(["Speed","Agility","Speed with Ball"].includes(attr)){
-      if(guard) b+=8; if(wing) b+=4; if(big) b-=8;
-    }
-
-    return b;
-  }
-
-  function focusBias(attr){
-    let b=0;
-    if(attr==="Three-Point Shot") b += focus.shoot3*2;
-    if(attr==="Mid-Range Shot") b += focus.mid*2;
-
-    if(["Ball Handle","Speed with Ball"].includes(attr)) b += (focus.iso*2 + focus.pnrH*2);
-    if(["Pass Accuracy","Pass IQ","Pass Vision","Pass Perception"].includes(attr)) b += focus.play*2;
-
-    if(["Close Shot","Driving Dunk","Standing Dunk","Driving Layup","Vertical"].includes(attr)) b += (focus.fin*2 + focus.pnrR*2);
-    if(["Post Control","Post Fade","Post Hook","Strength"].includes(attr)) b += focus.post*2;
-
-    if(["Perimeter Defense","Steal","Interior Defense","Block","Defensive Rebound"].includes(attr)) b += focus.def*2;
-    if(["Defensive Rebound","Offensive Rebound"].includes(attr)) b += focus.reb*2;
-
-    return b;
-  }
-
-  const attrs={OFFENSE:{},DEFENSE:{},ATHLETICISM:{},MENTAL:{},MISC:{}};
-  for(const [cat,fields] of Object.entries(ATTR_FIELDS)){
-    for(const f of fields){
-      let v=randInt(baseMin,baseMax);
-      v += posBias(f);
-      v += focusBias(f);
-      if(playInitiatorYes && ["Ball Handle","Pass Accuracy","Pass IQ","Pass Vision","Hands"].includes(f)) v+=4;
-      attrs[cat][f]=clamp(v,25,99);
-    }
-  }
-
-  // Potential / Intangibles (still fill)
-  attrs.MISC.Potential = clamp(roleKey==="draft"?randInt(75,93):randInt(ovr,Math.min(99,ovr+8)),25,99);
-  attrs.MISC.Intangibles = clamp(randInt(40,85),25,99);
-
-  return {ovr,attrs};
-}
-
-/* =========================
-   5) Tendencies generator (fills EVERY field)
-   Uses ranges as GUIDELINES and applies PF/C bias
-   ========================= */
-function generateTendencies({pos,focus,playInitiatorYes}){
-  const t={};
-
-  for(const [name,[min,max]] of Object.entries(TENDENCY_RANGES)){
-    t[name]=randInt(min,max);
-  }
-
-  const isBig=(pos==="PF"||pos==="C");
-
-  // PF/C bias notes
-  if(isBig){
-    t["Shot Under The Basket"]=clamp(t["Shot Under The Basket"]+8,15,55);
-    t["Shot Close"]=clamp(t["Shot Close"]+10,20,60);
-    t["Standing Dunk"]=clamp(t["Standing Dunk"]+15,40,95);
-    t["Putback"]=clamp(t["Putback"]+18,10,60);
-    t["Crash"]=clamp(t["Crash"]+20,35,99);
-    t["Block Shot"]=clamp(t["Block Shot"]+10,40,85);
-    t["Post Up"]=clamp(t["Post Up"]+18,0,95);
-    t["Roll vs Pop"]=clamp(t["Roll vs Pop"]+6,50,80);
-  }
-
-  // Focus influence (still “versatile, not overly aggressive”)
-  t["Shot 3PT"]=clamp(t["Shot 3PT"] + focus.shoot3*6, 5, 90);
-  t["Spot Up Shot 3PT"]=clamp(t["Spot Up Shot 3PT"] + focus.shoot3*6, 5, 95);
-
-  t["Shot Mid-Range"]=clamp(t["Shot Mid-Range"] + focus.mid*6, 5, 85);
-  t["Spot Up Shot Mid-Range"]=clamp(t["Spot Up Shot Mid-Range"] + focus.mid*6, 5, 85);
-
-  t["Step back Jumper 3PT"]=clamp(t["Step back Jumper 3PT"] + focus.iso*6, 5, 95);
-  t["Step back Jumper Mid-Range"]=clamp(t["Step back Jumper Mid-Range"] + focus.iso*6, 5, 95);
-  t["Drive"]=clamp(t["Drive"] + focus.iso*5, 25, 99);
-
-  t["Setup with Size up"]=clamp(t["Setup with Size up"] + focus.pnrH*5, 20, 95);
-  t["Setup with Hesitation"]=clamp(t["Setup with Hesitation"] + focus.pnrH*5, 20, 95);
-
-  t["Driving Dunk"]=clamp(t["Driving Dunk"] + (focus.fin+focus.pnrR)*4, 75, 99);
-  t["Driving Lay-up"]=clamp(t["Driving Lay-up"] + (focus.fin+focus.cut)*3, 75, 99);
-  t["Floater"]=clamp(t["Floater"] + focus.cut*2, 60, 95);
-
-  t["Post Back Down"]=clamp(t["Post Back Down"] + focus.post*4, 20, 90);
-  t["Shoot From Post"]=clamp(t["Shoot From Post"] + focus.post*4, 20, 90);
-  t["Post Fade"]=clamp(t["Post Fade"] + focus.post*2, 25, 65);
-
-  if(playInitiatorYes){
-    t["Dish to Open Man"]=clamp(t["Dish to Open Man"]+3,85,99);
-    t["Flashy Pass"]=clamp(t["Flashy Pass"]+5,15,55);
-    t["Alley-Oop Pass"]=clamp(t["Alley-Oop Pass"]+5,30,60);
-  }
-
-  t["Pass Interception"]=clamp(t["Pass Interception"] + focus.def*3, 65, 99);
-  t["On-Ball Steal"]=clamp(t["On-Ball Steal"] + focus.def*2, 50, 85);
-  t["Contest Shot"]=clamp(t["Contest Shot"] + focus.def*2, 60, 95);
-
-  // Prevent overly aggressive / erratic CPU behavior
-  t["Foul"]=clamp(t["Foul"],15,35);
-  t["Hard Foul"]=clamp(t["Hard Foul"],10,25);
-
-  return t;
-}
-
-/* =========================
-   6) Badges generator (role cap, uses ONLY your list)
-   ========================= */
-function generateBadges({roleKey,pos,focus}){
-  const maxBadges=ROLE_RULES[roleKey].badgeMax;
-  const isBig=(pos==="PF"||pos==="C");
-  const isGuard=(pos==="PG"||pos==="SG");
-
-  // Category weight based on focus
-  const w={
-    Shooting: 1 + focus.shoot3*0.8 + focus.mid*0.6,
-    Finishing: 1 + focus.fin*0.8 + focus.cut*0.6 + focus.pnrR*0.8,
-    Playmaking: 1 + focus.play*0.9 + focus.pnrH*0.7 + focus.iso*0.4,
-    Defense: 1 + focus.def*0.9,
-    Rebounding: 1 + focus.reb*1.0,
-    General: 1.2
+function familyFocusStrength(focus){
+  return {
+    shoot3:focus.shoot3*1.8+focus.iso*.25+focus.handoff*.35,
+    mid:focus.mid*1.9+focus.iso*.55+focus.post*.2,
+    finishing:focus.fin*1.55+focus.cut*1.3+focus.pnrR*1.25+focus.iso*.45+focus.ath*.35,
+    playmaking:focus.play*1.75+focus.pnrH*1.3+focus.handoff*.7+focus.iso*.45,
+    perimeterDefense:focus.def*1.25+focus.steal*1.45,
+    interiorDefense:focus.def*.9+focus.rimDef*1.8+focus.strength*.25,
+    rebounding:focus.reb*1.75+focus.pnrR*.25+focus.motor*.2,
+    post:focus.post*1.8+focus.strength*.55+focus.fin*.2
   };
-  if(isBig){ w.Rebounding+=2; w.Defense+=1; w.Playmaking-=0.4; }
-  if(isGuard){ w.Playmaking+=1; w.Shooting+=0.6; w.Rebounding-=0.6; }
-
-  function pickCategory(){
-    const entries=Object.entries(w).map(([k,v])=>[k,Math.max(0.05,v)]);
-    const total=entries.reduce((s, [,x])=>s+x,0);
-    let r=Math.random()*total;
-    for(const [k,x] of entries){ r-=x; if(r<=0) return k; }
-    return entries[0][0];
-  }
-
-  const used=new Set();
-  const out=[];
-
-  while(out.length<maxBadges){
-    const cat=pickCategory();
-    const name=pickOne(BADGES[cat]);
-    const key=`${cat}|${name}`;
-    if(used.has(key)) continue;
-    used.add(key);
-    out.push({category:cat, name, level:badgeLevelForRole(roleKey)});
-  }
-
-  out.sort((a,b)=>a.category.localeCompare(b.category)||a.name.localeCompare(b.name));
-  return out;
 }
 
-/* =========================
-   7) Output formatter (your requested format)
-   ========================= */
-function formatBuildText(build){
-  const p=build.player;
-  const a=build.attributes;
-  const t=build.tendencies;
-  const b=build.badges;
+function chooseIdentity({roleKey,pos,focus}){
+  const focusScores=familyFocusStrength(focus);
+  const preference=POSITION_IDENTITY_PREFERENCE[pos];
+  const ranked=FAMILY_KEYS.map(family=>({
+    family,
+    score:focusScores[family]+preference[family]+randFloat(-1.5,1.5)
+  })).sort((a,b)=>b.score-a.score);
 
+  let primary=ranked[0].family;
+  const offenseProbability=(pos==="PG"||pos==="SG"||pos==="SF") ? 0.90 : 0.78;
+  const bestOffense=ranked.find(item=>OFFENSIVE_FAMILIES.includes(item.family));
+  const bestDefense=ranked.find(item=>DEFENSIVE_FAMILIES.includes(item.family));
+  const explicitDefense=(bestDefense?.score||0)>(bestOffense?.score||0)+2.5;
+  let offensePath=false;
+
+  if(roleKey==="draft"&&!OFFENSIVE_FAMILIES.includes(primary)&&!explicitDefense&&Math.random()<offenseProbability){
+    primary=bestOffense.family;
+    offensePath=true;
+  }else if(roleKey==="draft"){
+    offensePath=OFFENSIVE_FAMILIES.includes(primary)||Math.random()<offenseProbability;
+  }
+
+  const remaining=ranked.filter(item=>item.family!==primary);
+  let secondary=remaining[0].family;
+
+  if(roleKey==="draft"&&offensePath&&!OFFENSIVE_FAMILIES.includes(primary)){
+    const offensiveSecondary=remaining.find(item=>OFFENSIVE_FAMILIES.includes(item.family));
+    if(offensiveSecondary) secondary=offensiveSecondary.family;
+  }
+
+  const tertiary=remaining.find(item=>item.family!==secondary)?.family||remaining[0].family;
+  const selected=new Set([primary,secondary,tertiary]);
+  const weakness=[...ranked].reverse().find(item=>!selected.has(item.family))?.family||ranked[ranked.length-1].family;
+
+  return {primary,secondary,tertiary,weakness,offensePath,ranked};
+}
+
+function buildFamilyScores({roleKey,pos,focus,draftTierKey}){
+  const profile=roleProfile(roleKey,draftTierKey);
+  const focusScores=familyFocusStrength(focus);
+  const identity=chooseIdentity({roleKey,pos,focus});
+  const scores={};
+
+  for(const family of FAMILY_KEYS){
+    const initial=randInt(profile.base[0],profile.base[1]);
+    const positionBias=POSITION_FAMILY_BIAS[pos][family];
+    const focusBoost=Math.min(16,Math.round(focusScores[family]));
+    scores[family]=clamp(initial+positionBias+focusBoost+randInt(-2,2),32,97);
+  }
+
+  scores[identity.primary]=Math.max(scores[identity.primary],randInt(profile.primary[0],profile.primary[1]));
+  scores[identity.secondary]=Math.max(scores[identity.secondary],randInt(profile.secondary[0],profile.secondary[1]));
+  scores[identity.tertiary]=Math.max(scores[identity.tertiary],randInt(profile.tertiary[0],profile.tertiary[1]));
+  scores[identity.weakness]=Math.min(scores[identity.weakness],randInt(profile.weak[0],profile.weak[1]));
+
+  for(const family of FAMILY_KEYS){
+    let softCap=profile.base[1]+10;
+    if(family===identity.primary) softCap=profile.primary[1];
+    else if(family===identity.secondary) softCap=profile.secondary[1];
+    else if(family===identity.tertiary) softCap=profile.tertiary[1];
+    scores[family]=applySoftCap(scores[family],softCap,99);
+  }
+
+  return {scores,identity,profile};
+}
+
+/* =========================================================
+   4) ATTRIBUTE GENERATION
+   ========================================================= */
+
+function generatePhysicalRatings({roleKey,pos,focus,weightLb}){
+  const ranges=PHYSICAL_RANGES[pos];
+  const physRange=PHYS_BY_POS[pos];
+  const weightPct=(weightLb-physRange.weight[0])/(physRange.weight[1]-physRange.weight[0]);
+  const youthBonus=roleKey==="draft"?1:0;
+  const experienceStrength={draft:0,role:2,key:4,star:5}[roleKey];
+
+  const speed=clamp(
+    randInt(ranges.speed[0],ranges.speed[1])+Math.round(focus.ath*.8)+youthBonus-Math.round(weightPct*3),
+    40,
+    99
+  );
+
+  const agility=clamp(
+    randInt(ranges.agility[0],ranges.agility[1])+Math.round(focus.ath*.65)-Math.round(weightPct*2),
+    40,
+    99
+  );
+
+  const vertical=clamp(
+    randInt(ranges.vertical[0],ranges.vertical[1])+Math.round(focus.ath*.9+focus.fin*.25)-Math.round(weightPct),
+    40,
+    99
+  );
+
+  const strength=clamp(
+    randInt(ranges.strength[0],ranges.strength[1])+Math.round(weightPct*6)+experienceStrength+Math.round(focus.strength*.9),
+    35,
+    99
+  );
+
+  const staminaRange=ROLE_RULES[roleKey].stamina;
+  const stamina=clamp(
+    randInt(staminaRange[0],staminaRange[1])+Math.round(focus.motor*.6),
+    staminaRange[0],
+    99
+  );
+
+  const hustleRange=ROLE_RULES[roleKey].hustle;
+  const hustle=clamp(
+    randInt(hustleRange[0],hustleRange[1])+Math.round((focus.motor+focus.def+focus.reb)*.25),
+    hustleRange[0],
+    99
+  );
+
+  return {speed,agility,vertical,strength,stamina,hustle};
+}
+
+function generateAttributes({roleKey,pos,focus,playInitiatorYes,weightLb,draftTierKey}){
+  const familyBuild=buildFamilyScores({roleKey,pos,focus,draftTierKey});
+  const {scores,identity,profile}=familyBuild;
+  const attrs=createAttributeShell();
+  const physical=generatePhysicalRatings({roleKey,pos,focus,weightLb});
+  const isBig=pos==="PF"||pos==="C";
+  const isGuard=pos==="PG"||pos==="SG";
+  const mentalRange=ROLE_RULES[roleKey].mental;
+  const mentalBase=randInt(mentalRange[0],mentalRange[1]);
+
+  const playPenalty=(pos==="PF"?-4:pos==="C"?-7:0);
+  const exceptionalBigPlaymaker=identity.primary==="playmaking"||identity.secondary==="playmaking"||focus.play>=7;
+  const adjustedPlayPenalty=exceptionalBigPlaymaker?Math.ceil(playPenalty*.25):playPenalty;
+
+  const speedWithBall=clamp(
+    physical.speed*.55+scores.playmaking*.45+(pos==="PG"?3:pos==="SG"?1:pos==="C"?-4:0)+focus.pnrH*.25,
+    35,
+    Math.min(99,physical.speed+3)
+  );
+
+  setAttr(attrs,"Driving Layup",jitter(scores.finishing+(isGuard?3:pos==="SF"?1:-2),4));
+  setAttr(attrs,"Post Fade",jitter(scores.post+(isBig?2:-2),4));
+  setAttr(attrs,"Post Hook",jitter(scores.post+(pos==="C"?4:pos==="PF"?2:-5),5));
+  setAttr(attrs,"Post Control",jitter(scores.post+(isBig?4:isGuard?-5:0),4));
+  setAttr(attrs,"Draw Foul",jitter(Math.max(scores.finishing,scores.post)-2+(roleKey==="star"?4:0),5));
+  setAttr(attrs,"Close Shot",jitter(Math.max(scores.finishing,scores.post)+(isBig?4:0),4));
+  setAttr(attrs,"Mid-Range Shot",jitter(scores.mid,4));
+  setAttr(attrs,"Three-Point Shot",jitter(scores.shoot3,4));
+  setAttr(attrs,"Free Throw",jitter(scores.shoot3*.55+scores.mid*.45+(isBig?-3:2),5));
+  setAttr(attrs,"Ball Handle",jitter(scores.playmaking+(pos==="PG"?4:pos==="SG"?2:adjustedPlayPenalty),4));
+  setAttr(attrs,"Pass IQ",jitter(scores.playmaking*.58+mentalBase*.42+(playInitiatorYes?4:0),4));
+  setAttr(attrs,"Pass Accuracy",jitter(scores.playmaking+(pos==="PG"?3:0)+(playInitiatorYes?4:0)+adjustedPlayPenalty*.35,4));
+  setAttr(attrs,"Offensive Rebound",jitter(scores.rebounding+(pos==="C"?3:pos==="PF"?1:isGuard?-7:-2),5));
+  setAttr(attrs,"Standing Dunk",jitter(scores.finishing*.68+scores.post*.32+(pos==="C"?10:pos==="PF"?6:pos==="SF"?-5:pos==="SG"?-13:-20),5));
+  setAttr(attrs,"Driving Dunk",jitter(scores.finishing+(physical.vertical-75)*.30+(pos==="SF"||pos==="PF"?2:pos==="PG"?-2:0),5));
+  setAttr(attrs,"Shot IQ",jitter(mentalBase*.72+Math.max(scores.shoot3,scores.mid,scores.finishing,scores.post)*.28,4));
+  setAttr(attrs,"Pass Vision",jitter(scores.playmaking*.62+mentalBase*.38+(playInitiatorYes?5:0),4));
+  setAttr(attrs,"Hands",jitter(scores.playmaking*.45+scores.finishing*.25+mentalBase*.30,4));
+
+  setAttr(attrs,"Defensive Rebound",jitter(scores.rebounding+(isBig?4:isGuard?-4:1),4));
+  setAttr(attrs,"Interior Defense",jitter(scores.interiorDefense+(pos==="C"?4:pos==="PF"?2:isGuard?-6:0),4));
+  setAttr(attrs,"Perimeter Defense",jitter(scores.perimeterDefense+(isGuard?3:pos==="C"?-5:0),4));
+  setAttr(attrs,"Block",jitter(scores.interiorDefense+(physical.vertical-70)*.22+(pos==="C"?5:pos==="PF"?3:isGuard?-7:0),5));
+  setAttr(attrs,"Steal",jitter(scores.perimeterDefense+(focus.steal*.6)+(isGuard?2:isBig?-3:0),5));
+
+  setAttr(attrs,"Speed",physical.speed);
+  setAttr(attrs,"Speed with Ball",speedWithBall);
+  setAttr(attrs,"Vertical",physical.vertical);
+  setAttr(attrs,"Strength",physical.strength);
+  setAttr(attrs,"Stamina",physical.stamina);
+  setAttr(attrs,"Hustle",physical.hustle);
+  setAttr(attrs,"Agility",physical.agility);
+
+  setAttr(attrs,"Pass Perception",jitter(scores.perimeterDefense*.55+mentalBase*.45,4));
+  setAttr(attrs,"Defensive Consistency",jitter(mentalBase*.62+Math.max(scores.perimeterDefense,scores.interiorDefense)*.38,4));
+  setAttr(attrs,"Help Defense IQ",jitter(mentalBase*.58+scores.interiorDefense*.42,4));
+  setAttr(attrs,"Offensive Consistency",jitter(mentalBase*.60+Math.max(scores.shoot3,scores.mid,scores.finishing,scores.playmaking,scores.post)*.40,4));
+
+  setAttr(attrs,"Intangibles",50);
+  setAttr(attrs,"Potential",75);
+
+  applyRealisticCaps(attrs,{roleKey,pos,focus,identity,profile,draftTierKey});
+  guaranteeNBAPath(attrs,{roleKey,pos,identity,profile,draftTierKey});
+
+  const coreOverall=estimateCoreOverall(attrs,pos);
+  const range=roleOvrRange(roleKey,draftTierKey);
+  const targetOvr=clamp(Math.round(coreOverall+randInt(-1,1)),range[0],range[1]);
+  const estimatedOvr=balanceOverallWithIntangibles(attrs,pos,targetOvr);
+
+  const potentialRange=roleKey==="draft" ? DRAFT_TIERS[draftTierKey].potential : ROLE_RULES[roleKey].potential;
+  setAttr(attrs,"Potential",Math.max(targetOvr,randInt(potentialRange[0],potentialRange[1])));
+
+  return {
+    ovr:targetOvr,
+    estimatedOvr,
+    coreOverall:Math.round(coreOverall*10)/10,
+    attrs,
+    identity,
+    familyScores:scores
+  };
+}
+
+function applyRealisticCaps(attrs,{roleKey,pos,focus,identity,profile,draftTierKey}){
+  const genericSoftCap={star:96,key:91,role:86,draft:82}[roleKey];
+  const mentalSoftCap=roleKey==="draft"
+    ? (draftTierKey==="generational"?86:82)
+    : ({role:87,key:93,star:98}[roleKey]);
+
+  for(const [category,fields] of Object.entries(ATTR_FIELDS)){
+    for(const name of fields){
+      if(name==="Stamina"||name==="Potential"||name==="Intangibles") continue;
+      const family=ATTRIBUTE_FAMILY[name];
+      let softCap=genericSoftCap;
+
+      if(family===identity.primary) softCap=profile.primary[1];
+      else if(family===identity.secondary) softCap=profile.secondary[1];
+      else if(family===identity.tertiary) softCap=profile.tertiary[1];
+
+      if(category==="MENTAL"||name==="Shot IQ") softCap=mentalSoftCap;
+      setAttr(attrs,name,applySoftCap(getAttr(attrs,name),softCap,99));
+    }
+  }
+
+  const finishingIdentity=[identity.primary,identity.secondary].includes("finishing");
+  const interiorIdentity=[identity.primary,identity.secondary].includes("interiorDefense");
+  const reboundingIdentity=[identity.primary,identity.secondary].includes("rebounding");
+  const playmakingIdentity=[identity.primary,identity.secondary].includes("playmaking")||focus.play>=7;
+  const shootingIdentity=[identity.primary,identity.secondary].includes("shoot3")||focus.shoot3>=7;
+
+  if(pos==="PG"){
+    setAttr(attrs,"Standing Dunk",Math.min(getAttr(attrs,"Standing Dunk"),finishingIdentity?74:55));
+    setAttr(attrs,"Block",Math.min(getAttr(attrs,"Block"),interiorIdentity?79:67));
+    setAttr(attrs,"Offensive Rebound",Math.min(getAttr(attrs,"Offensive Rebound"),reboundingIdentity?72:60));
+  }
+
+  if(pos==="SG"){
+    setAttr(attrs,"Standing Dunk",Math.min(getAttr(attrs,"Standing Dunk"),finishingIdentity?80:62));
+    setAttr(attrs,"Block",Math.min(getAttr(attrs,"Block"),interiorIdentity?82:72));
+    setAttr(attrs,"Offensive Rebound",Math.min(getAttr(attrs,"Offensive Rebound"),reboundingIdentity?75:64));
+  }
+
+  if(pos==="PF"&&!playmakingIdentity){
+    setAttr(attrs,"Ball Handle",Math.min(getAttr(attrs,"Ball Handle"),76));
+    setAttr(attrs,"Speed with Ball",Math.min(getAttr(attrs,"Speed with Ball"),76));
+  }
+
+  if(pos==="C"){
+    if(!playmakingIdentity){
+      setAttr(attrs,"Ball Handle",Math.min(getAttr(attrs,"Ball Handle"),70));
+      setAttr(attrs,"Speed with Ball",Math.min(getAttr(attrs,"Speed with Ball"),68));
+      setAttr(attrs,"Pass Vision",Math.min(getAttr(attrs,"Pass Vision"),78));
+    }
+    if(!shootingIdentity){
+      setAttr(attrs,"Three-Point Shot",Math.min(getAttr(attrs,"Three-Point Shot"),78));
+    }
+  }
+}
+
+function guaranteeNBAPath(attrs,{roleKey,pos,identity,profile,draftTierKey}){
+  const floor=profile.nbaFloor;
+  const primaryCandidates=FAMILY_ATTRIBUTE_CANDIDATES[identity.primary];
+  const sortedPrimary=[...primaryCandidates].sort((a,b)=>getAttr(attrs,b)-getAttr(attrs,a));
+  const bestPrimary=sortedPrimary[0];
+  setAttr(attrs,bestPrimary,Math.max(getAttr(attrs,bestPrimary),floor));
+
+  const requiredStrengths=roleKey==="draft" ? DRAFT_TIERS[draftTierKey].strengthCount : 1;
+  if(requiredStrengths>1){
+    const secondaryCandidates=FAMILY_ATTRIBUTE_CANDIDATES[identity.secondary];
+    const bestSecondary=[...secondaryCandidates].sort((a,b)=>getAttr(attrs,b)-getAttr(attrs,a))[0];
+    setAttr(attrs,bestSecondary,Math.max(getAttr(attrs,bestSecondary),profile.supportFloor));
+  }
+
+  if(roleKey==="draft"&&identity.offensePath&&!OFFENSIVE_FAMILIES.includes(identity.primary)){
+    const offensiveFamily=[identity.secondary,identity.tertiary].find(family=>OFFENSIVE_FAMILIES.includes(family))||"finishing";
+    const candidates=FAMILY_ATTRIBUTE_CANDIDATES[offensiveFamily];
+    const best=[...candidates].sort((a,b)=>getAttr(attrs,b)-getAttr(attrs,a))[0];
+    setAttr(attrs,best,Math.max(getAttr(attrs,best),profile.supportFloor));
+  }
+
+  const staminaFloor=ROLE_RULES[roleKey].stamina[0];
+  setAttr(attrs,"Stamina",Math.max(getAttr(attrs,"Stamina"),staminaFloor));
+
+  if(pos==="C"&&identity.primary==="playmaking"){
+    setAttr(attrs,"Pass Accuracy",Math.max(getAttr(attrs,"Pass Accuracy"),floor));
+  }
+  if((pos==="PG"||pos==="SG")&&identity.primary==="finishing"){
+    setAttr(attrs,"Driving Layup",Math.max(getAttr(attrs,"Driving Layup"),floor));
+  }
+}
+
+function familyMetricsFromAttributes(attrs){
+  return {
+    shoot3:average([
+      getAttr(attrs,"Three-Point Shot"),
+      getAttr(attrs,"Free Throw")*.75+getAttr(attrs,"Shot IQ")*.25
+    ]),
+    mid:average([
+      getAttr(attrs,"Mid-Range Shot"),
+      getAttr(attrs,"Shot IQ")
+    ]),
+    finishing:average([
+      getAttr(attrs,"Driving Layup"),
+      getAttr(attrs,"Close Shot"),
+      getAttr(attrs,"Driving Dunk"),
+      getAttr(attrs,"Draw Foul")
+    ]),
+    playmaking:average([
+      getAttr(attrs,"Ball Handle"),
+      getAttr(attrs,"Pass Accuracy"),
+      getAttr(attrs,"Pass IQ"),
+      getAttr(attrs,"Speed with Ball"),
+      getAttr(attrs,"Pass Vision")
+    ]),
+    perimeterDefense:average([
+      getAttr(attrs,"Perimeter Defense"),
+      getAttr(attrs,"Steal"),
+      getAttr(attrs,"Pass Perception")
+    ]),
+    interiorDefense:average([
+      getAttr(attrs,"Interior Defense"),
+      getAttr(attrs,"Block"),
+      getAttr(attrs,"Help Defense IQ")
+    ]),
+    rebounding:average([
+      getAttr(attrs,"Offensive Rebound"),
+      getAttr(attrs,"Defensive Rebound")
+    ]),
+    post:average([
+      getAttr(attrs,"Post Control"),
+      getAttr(attrs,"Post Fade"),
+      getAttr(attrs,"Post Hook"),
+      getAttr(attrs,"Standing Dunk")
+    ]),
+    physical:average([
+      getAttr(attrs,"Speed"),
+      getAttr(attrs,"Agility"),
+      getAttr(attrs,"Vertical"),
+      getAttr(attrs,"Strength"),
+      getAttr(attrs,"Stamina")
+    ]),
+    mental:average([
+      getAttr(attrs,"Shot IQ"),
+      getAttr(attrs,"Pass IQ"),
+      getAttr(attrs,"Defensive Consistency"),
+      getAttr(attrs,"Help Defense IQ"),
+      getAttr(attrs,"Offensive Consistency")
+    ])
+  };
+}
+
+function estimateCoreOverall(attrs,pos){
+  const metrics=familyMetricsFromAttributes(attrs);
+  const weights=OVR_WEIGHTS[pos];
+  let score=0;
+  let total=0;
+  for(const [metric,weight] of Object.entries(weights)){
+    score+=metrics[metric]*weight;
+    total+=weight;
+  }
+  return score/total;
+}
+
+function balanceOverallWithIntangibles(attrs,pos,targetOvr){
+  const core=estimateCoreOverall(attrs,pos);
+  const intangiblesWeight=.18;
+  const required=(targetOvr-core*(1-intangiblesWeight))/intangiblesWeight;
+  setAttr(attrs,"Intangibles",clamp(Math.round(required),25,99));
+  const estimate=core*(1-intangiblesWeight)+getAttr(attrs,"Intangibles")*intangiblesWeight;
+  return Math.round(estimate);
+}
+
+/* =========================================================
+   5) TENDENCIES
+   ========================================================= */
+
+function tendencyFromRating(rating,min,max,noise=6){
+  const normalized=(clamp(rating,25,99)-25)/74;
+  return clamp(Math.round(min+normalized*(max-min)+randInt(-noise,noise)),min,max);
+}
+
+function generateTendencies({roleKey,pos,focus,playInitiatorYes,attrs,ovr}){
+  const tendencies={};
+  for(const [name,[min,max]] of Object.entries(TENDENCY_RANGES)){
+    tendencies[name]=randInt(min,max);
+  }
+
+  const a=name=>getAttr(attrs,name);
+  const isBig=pos==="PF"||pos==="C";
+  const handle=average([a("Ball Handle"),a("Speed with Ball")]);
+  const passing=average([a("Pass Accuracy"),a("Pass IQ"),a("Pass Vision")]);
+  const shotIQ=average([a("Shot IQ"),a("Offensive Consistency")]);
+  const perimeterDefense=average([a("Perimeter Defense"),a("Steal"),a("Pass Perception")]);
+  const interiorDefense=average([a("Interior Defense"),a("Block"),a("Help Defense IQ")]);
+  const rebounding=average([a("Offensive Rebound"),a("Defensive Rebound")]);
+  const postSkill=average([a("Post Control"),a("Post Fade"),a("Post Hook")]);
+  const roleUsage={draft:58,role:60,key:76,star:89}[roleKey];
+
+  tendencies["Shot Under The Basket"]=tendencyFromRating(a("Close Shot"),10,isBig?70:48,5);
+  tendencies["Shot Close"]=tendencyFromRating(a("Close Shot"),10,70,6);
+  tendencies["Shot Mid-Range"]=clamp(tendencyFromRating(a("Mid-Range Shot"),5,82,7)+focus.mid*3,5,90);
+  tendencies["Spot Up Shot Mid-Range"]=clamp(tendencyFromRating(a("Mid-Range Shot"),5,80,7)+focus.mid*3,5,90);
+  tendencies["Off Screen Shot Mid-Range"]=clamp(tendencyFromRating(average([a("Mid-Range Shot"),handle]),5,70,7)+focus.handoff*2,5,85);
+  tendencies["Shot 3PT"]=clamp(tendencyFromRating(a("Three-Point Shot"),5,88,7)+focus.shoot3*3,5,95);
+  tendencies["Spot Up Shot 3PT"]=clamp(tendencyFromRating(a("Three-Point Shot"),5,92,6)+focus.shoot3*3,5,97);
+  tendencies["Off Screen Shot 3PT"]=clamp(tendencyFromRating(average([a("Three-Point Shot"),handle]),5,78,7)+focus.handoff*3,5,90);
+  tendencies["Contested Jumper 3PT"]=clamp(tendencyFromRating(average([a("Three-Point Shot"),shotIQ]),5,48,5)+(roleKey==="star"?5:0),5,60);
+  tendencies["Contested Jumper Mid-Range"]=clamp(tendencyFromRating(average([a("Mid-Range Shot"),shotIQ]),5,58,5)+(roleKey==="star"?5:0),5,70);
+  tendencies["Step back Jumper 3PT"]=clamp(tendencyFromRating(average([a("Three-Point Shot"),handle]),5,88,8)+focus.iso*3,5,95);
+  tendencies["Step back Jumper Mid-Range"]=clamp(tendencyFromRating(average([a("Mid-Range Shot"),handle]),5,88,8)+focus.iso*3,5,95);
+  tendencies["Spin Jumper"]=tendencyFromRating(average([a("Mid-Range Shot"),handle]),5,42,6);
+  tendencies["Transition Pull-up 3PT"]=tendencyFromRating(average([a("Three-Point Shot"),a("Speed with Ball")]),5,60,7);
+  tendencies["Drive Pull-up 3PT"]=clamp(tendencyFromRating(average([a("Three-Point Shot"),handle]),5,88,7)+focus.iso*2,5,95);
+  tendencies["Drive Pull-up Mid-Range"]=clamp(tendencyFromRating(average([a("Mid-Range Shot"),handle]),5,90,7)+focus.mid*2,5,97);
+  tendencies["Use Glass"]=tendencyFromRating(a("Driving Layup"),15,62,7);
+  tendencies["Step Through Shot"]=tendencyFromRating(average([postSkill,a("Driving Layup")]),5,55,7);
+
+  tendencies["Driving Lay-up"]=tendencyFromRating(a("Driving Layup"),45,99,5);
+  tendencies["Standing Dunk"]=tendencyFromRating(a("Standing Dunk"),5,99,5);
+  tendencies["Driving Dunk"]=tendencyFromRating(a("Driving Dunk"),10,99,5);
+  tendencies["Flashy Dunk"]=tendencyFromRating(average([a("Driving Dunk"),a("Vertical")]),5,82,8);
+  tendencies["Alley-Oop"]=tendencyFromRating(average([a("Driving Dunk"),a("Vertical")]),5,82,7);
+  tendencies["Putback"]=tendencyFromRating(average([a("Offensive Rebound"),a("Standing Dunk")]),5,65,6);
+  tendencies["Crash"]=tendencyFromRating(rebounding,20,99,6);
+  tendencies["Spin Layup"]=tendencyFromRating(average([a("Driving Layup"),handle]),15,72,7);
+  tendencies["Hop Step Layup"]=tendencyFromRating(average([a("Driving Layup"),a("Strength")]),10,62,7);
+  tendencies["Euro Step Layup"]=tendencyFromRating(average([a("Driving Layup"),handle]),10,68,7);
+  tendencies["Floater"]=tendencyFromRating(average([a("Driving Layup"),a("Mid-Range Shot")]),15,88,7);
+
+  tendencies["Triple Threat Pump Fake"]=tendencyFromRating(shotIQ,20,65,5);
+  tendencies["Triple Threat Jab Step"]=tendencyFromRating(average([handle,a("Strength")]),20,62,5);
+  tendencies["Triple Threat Idle"]=clamp(55-tendencyFromRating(handle,10,42,4),10,50);
+  tendencies["Triple Threat Shoot"]=tendencyFromRating(average([a("Three-Point Shot"),a("Mid-Range Shot")]),10,75,6);
+  tendencies["Setup with Size up"]=clamp(tendencyFromRating(handle,10,90,6)+focus.pnrH*2,10,95);
+  tendencies["Setup with Hesitation"]=clamp(tendencyFromRating(handle,10,88,6)+focus.pnrH*2,10,95);
+  tendencies["No Setup Dribble"]=clamp(90-tendencyFromRating(handle,10,70,5),15,80);
+
+  tendencies["Drive"]=clamp(tendencyFromRating(average([a("Driving Layup"),a("Driving Dunk"),handle]),15,97,6)+focus.iso*2,15,99);
+  tendencies["Spot-up Drive"]=tendencyFromRating(average([a("Driving Layup"),a("Speed")]),10,82,7);
+  tendencies["Off Screen Drive"]=tendencyFromRating(average([a("Driving Layup"),a("Speed")]),10,74,7);
+  tendencies["Drive Right"]=randInt(48,72);
+  tendencies["Driving Crossover"]=tendencyFromRating(handle,15,82,7);
+  tendencies["Driving Spin"]=tendencyFromRating(handle,10,72,7);
+  tendencies["Driving Step back"]=tendencyFromRating(handle,10,75,7);
+  tendencies["Driving Half-spin"]=tendencyFromRating(handle,5,52,7);
+  tendencies["Driving Double Crossover"]=tendencyFromRating(handle,5,65,7);
+  tendencies["Driving Behind the Back"]=tendencyFromRating(handle,5,68,7);
+  tendencies["Driving Dribble Hesitation"]=tendencyFromRating(handle,15,78,7);
+  tendencies["Driving In and Out"]=tendencyFromRating(handle,10,70,7);
+  tendencies["No Driving Dribble Moves"]=clamp(95-tendencyFromRating(handle,10,78,6),15,85);
+  tendencies["Attack Strong on Drive"]=tendencyFromRating(average([a("Strength"),a("Driving Dunk"),a("Draw Foul")]),30,99,6);
+
+  tendencies["Dish to Open Man"]=clamp(tendencyFromRating(passing,70,99,4)+(playInitiatorYes?3:0),70,99);
+  tendencies["Flashy Pass"]=tendencyFromRating(passing,5,62,7);
+  tendencies["Alley-Oop Pass"]=tendencyFromRating(passing,10,68,6);
+
+  tendencies["Post Up"]=clamp(tendencyFromRating(postSkill,0,isBig?95:78,6)+focus.post*3,0,97);
+  tendencies["Post Shimmy Shot"]=tendencyFromRating(average([a("Post Fade"),a("Post Control")]),5,82,7);
+  tendencies["Post Face Up"]=tendencyFromRating(average([a("Post Control"),a("Mid-Range Shot")]),5,82,7);
+  tendencies["Post Back Down"]=tendencyFromRating(average([a("Post Control"),a("Strength")]),5,92,6);
+  tendencies["Post Aggressive Backdown"]=tendencyFromRating(average([a("Post Control"),a("Strength")]),5,88,6);
+  tendencies["Shoot From Post"]=tendencyFromRating(postSkill,5,92,6);
+  tendencies["Post Hook"]=tendencyFromRating(a("Post Hook"),5,78,6);
+  tendencies["Post Fade"]=tendencyFromRating(a("Post Fade"),5,78,6);
+  tendencies["Post Up and Under"]=tendencyFromRating(postSkill,5,78,7);
+  tendencies["Post Hop Shot"]=tendencyFromRating(average([a("Post Fade"),a("Post Control")]),5,78,7);
+  tendencies["Post Step Back Shot"]=tendencyFromRating(average([a("Post Fade"),a("Mid-Range Shot")]),5,72,7);
+  tendencies["Post Drive"]=tendencyFromRating(average([a("Post Control"),a("Driving Layup")]),5,84,7);
+  tendencies["Post Spin"]=tendencyFromRating(average([a("Post Control"),handle]),5,82,7);
+  tendencies["Post Drop Step"]=tendencyFromRating(average([a("Post Control"),a("Strength")]),5,90,6);
+  tendencies["Post Hop Step"]=tendencyFromRating(average([a("Post Control"),a("Driving Layup")]),5,82,7);
+
+  tendencies["Shot"]=clamp(Math.round(roleUsage+(ovr-75)*.7+randInt(-8,8)),35,97);
+  tendencies["Touches"]=clamp(Math.round(roleUsage+(playInitiatorYes?7:0)+randInt(-8,8)),35,97);
+  tendencies["Roll vs Pop"]=clamp(Math.round(52+(a("Three-Point Shot")-a("Standing Dunk"))*.28+randInt(-6,6)),35,85);
+  tendencies["Transition Spot-up"]=tendencyFromRating(average([a("Three-Point Shot"),a("Speed")]),5,82,7);
+  tendencies["ISO vs Elite Defender"]=tendencyFromRating(average([handle,shotIQ]),10,48,5);
+  tendencies["ISO vs Good Defender"]=tendencyFromRating(average([handle,shotIQ]),18,62,5);
+  tendencies["ISO vs Average Defender"]=tendencyFromRating(average([handle,shotIQ]),30,78,5);
+  tendencies["ISO vs Poor Defender"]=tendencyFromRating(average([handle,shotIQ]),45,92,5);
+  tendencies["Play Discipline"]=tendencyFromRating(average([a("Shot IQ"),a("Pass IQ"),a("Offensive Consistency")]),25,98,4);
+
+  tendencies["Pass Interception"]=tendencyFromRating(perimeterDefense,35,99,5);
+  tendencies["Take Charge"]=tendencyFromRating(average([a("Strength"),a("Defensive Consistency")]),10,52,6);
+  tendencies["On-Ball Steal"]=tendencyFromRating(average([a("Steal"),a("Perimeter Defense")]),25,88,5);
+  tendencies["Contest Shot"]=tendencyFromRating(Math.max(perimeterDefense,interiorDefense),40,99,4);
+  tendencies["Block Shot"]=tendencyFromRating(average([a("Block"),a("Vertical")]),15,92,5);
+  tendencies["Foul"]=clamp(42-tendencyFromRating(a("Defensive Consistency"),5,24,4)+(isBig?3:0),12,38);
+  tendencies["Hard Foul"]=clamp(tendencyFromRating(a("Strength"),8,30,5),8,32);
+
+  return tendencies;
+}
+
+/* =========================================================
+   6) BADGES
+   ========================================================= */
+
+function badgeFitScore(category,name,attrs,pos,focus,heightIn){
+  const a=attribute=>getAttr(attrs,attribute);
+  const isGuard=pos==="PG"||pos==="SG";
+  const isBig=pos==="PF"||pos==="C";
+
+  const scores={
+    "Deadeye":average([a("Three-Point Shot"),a("Mid-Range Shot"),a("Shot IQ")]),
+    "Limitless Range":a("Three-Point Shot"),
+    "Mini Marksman":heightIn<=76 ? average([a("Three-Point Shot"),a("Speed with Ball")])+4 : 0,
+    "Set Shot Specialist":average([a("Three-Point Shot"),a("Offensive Consistency")]),
+    "Shifty Shooter":average([a("Mid-Range Shot"),a("Three-Point Shot"),a("Ball Handle")]),
+
+    "Aerial Wizard":average([a("Driving Dunk"),a("Standing Dunk"),a("Vertical")]),
+    "Float Game":average([a("Driving Layup"),a("Mid-Range Shot")])+(isGuard?3:0),
+    "Hook Specialist":average([a("Post Hook"),a("Post Control")]),
+    "Layup Mixmaster":average([a("Driving Layup"),a("Ball Handle")]),
+    "Paint Prodigy":average([a("Close Shot"),a("Standing Dunk")]),
+    "Physical Finisher":average([a("Driving Layup"),a("Driving Dunk"),a("Strength")]),
+    "Post Fade Phenom":average([a("Post Fade"),a("Post Control")]),
+    "Post Powerhouse":average([a("Post Control"),a("Strength"),a("Standing Dunk")]),
+    "Post Up Poet":average([a("Post Fade"),a("Post Hook"),a("Post Control")]),
+    "Posterizer":average([a("Driving Dunk"),a("Vertical")]),
+    "Rise Up":average([a("Standing Dunk"),a("Strength")])+(isBig?3:-3),
+
+    "Ankle Assassin":average([a("Ball Handle"),a("Speed with Ball")]),
+    "Bail Out":average([a("Pass Accuracy"),a("Pass IQ")]),
+    "Break Starter":average([a("Pass Accuracy"),a("Defensive Rebound")])+(isBig?3:0),
+    "Dimer":average([a("Pass Accuracy"),a("Pass IQ"),a("Pass Vision")]),
+    "Handles for Days":average([a("Ball Handle"),a("Stamina")]),
+    "Lightning Launch":average([a("Speed with Ball"),a("Agility")]),
+    "Strong Handle":average([a("Ball Handle"),a("Strength")]),
+    "Unpluckable":average([a("Ball Handle"),a("Hands")]),
+    "Versatile Visionary":average([a("Pass Vision"),a("Pass Accuracy")]),
+
+    "Challenger":average([a("Perimeter Defense"),a("Defensive Consistency")]),
+    "Glove":average([a("Steal"),a("Perimeter Defense")]),
+    "Interceptor":average([a("Pass Perception"),a("Steal")]),
+    "High Flying Denier":average([a("Block"),a("Vertical")]),
+    "Immovable Enforcer":average([a("Strength"),a("Interior Defense"),a("Perimeter Defense")]),
+    "Off Ball Pest":average([a("Perimeter Defense"),a("Stamina"),a("Hustle")]),
+    "On-Ball Menace":average([a("Perimeter Defense"),a("Agility")]),
+    "Paint Patroller":average([a("Interior Defense"),a("Block"),a("Help Defense IQ")]),
+    "Pick Dodger":average([a("Perimeter Defense"),a("Agility")]),
+    "Post Lockdown":average([a("Interior Defense"),a("Strength")]),
+
+    "Boxout Beast":average([a("Defensive Rebound"),a("Strength")]),
+    "Rebound Chaser":average([a("Defensive Rebound"),a("Offensive Rebound"),a("Vertical")]),
+
+    "Brick Wall":average([a("Strength"),a("Interior Defense")])+(isBig?3:0),
+    "Slippery Off Ball":average([a("Speed"),a("Agility"),a("Stamina")])+(isGuard?2:0),
+    "Pogo Stick":average([a("Block"),a("Vertical"),a("Stamina")])+(isBig?3:0)
+  };
+
+  let score=scores[name]??65;
+  if(category==="Shooting") score+=focus.shoot3*.45+focus.mid*.35;
+  if(category==="Finishing") score+=focus.fin*.45+focus.post*.25;
+  if(category==="Playmaking") score+=focus.play*.45+focus.pnrH*.30;
+  if(category==="Defense") score+=focus.def*.45+focus.rimDef*.25+focus.steal*.25;
+  if(category==="Rebounding") score+=focus.reb*.55;
+  return score;
+}
+
+function badgeLevelForScore(roleKey,score){
+  if(roleKey==="star"){
+    if(score>=95) return "Gold";
+    if(score>=85) return "Silver";
+    return "Bronze";
+  }
+  if(roleKey==="key"){
+    if(score>=96) return "Gold";
+    if(score>=86) return "Silver";
+    return "Bronze";
+  }
+  if(roleKey==="role"){
+    if(score>=97) return "Gold";
+    if(score>=88) return "Silver";
+    return "Bronze";
+  }
+  if(score>=98) return "Gold";
+  if(score>=90) return "Silver";
+  return "Bronze";
+}
+
+function generateBadges({roleKey,pos,focus,attrs,draftTierKey,heightIn}){
+  const [minBadges,maxBadges]=roleBadgeRange(roleKey,draftTierKey);
+  const badgeCount=randInt(minBadges,maxBadges);
+  const candidates=[];
+
+  for(const [category,names] of Object.entries(BADGES)){
+    for(const name of names){
+      const score=badgeFitScore(category,name,attrs,pos,focus,heightIn);
+      candidates.push({category,name,score,selectionScore:score+randFloat(-5,5)});
+    }
+  }
+
+  candidates.sort((a,b)=>b.selectionScore-a.selectionScore);
+  const selected=candidates.slice(0,badgeCount).map(candidate=>({
+    category:candidate.category,
+    name:candidate.name,
+    level:badgeLevelForScore(roleKey,candidate.score),
+    score:candidate.score
+  }));
+
+  selected.sort((a,b)=>a.category.localeCompare(b.category)||a.name.localeCompare(b.name));
+  return selected;
+}
+
+/* =========================================================
+   7) BUILD SUMMARY AND OUTPUT
+   ========================================================= */
+
+function strongestAttributeForFamily(attrs,family){
+  const candidates=FAMILY_ATTRIBUTE_CANDIDATES[family]||[];
+  return candidates
+    .map(name=>({name,value:getAttr(attrs,name)}))
+    .sort((a,b)=>b.value-a.value)[0]||{name:FAMILY_LABELS[family],value:0};
+}
+
+function describeNBAPath({roleKey,attrs,identity}){
+  const primary=strongestAttributeForFamily(attrs,identity.primary);
+  const secondary=strongestAttributeForFamily(attrs,identity.secondary);
+
+  if(roleKey==="draft"){
+    if(!OFFENSIVE_FAMILIES.includes(identity.primary)){
+      return `${FAMILY_LABELS[identity.primary]} gets him onto an NBA roster (${primary.name} ${primary.value}), while ${FAMILY_LABELS[identity.secondary].toLowerCase()} gives him a usable supporting skill.`;
+    }
+    return `His draft-worthy skill is ${FAMILY_LABELS[identity.primary].toLowerCase()} (${primary.name} ${primary.value}), supported by ${FAMILY_LABELS[identity.secondary].toLowerCase()} (${secondary.name} ${secondary.value}).`;
+  }
+
+  return `His main NBA value is ${FAMILY_LABELS[identity.primary].toLowerCase()} (${primary.name} ${primary.value}), with ${FAMILY_LABELS[identity.secondary].toLowerCase()} as the secondary strength.`;
+}
+
+function developmentNotes({roleKey,attrs,identity}){
+  if(roleKey!=="draft"){
+    return `Established-player profile: stronger IQ, consistency, stamina and physical maturity, while preserving the ${FAMILY_LABELS[identity.primary].toLowerCase()} identity.`;
+  }
+
+  const developmentCandidates=[
+    {name:"Shot IQ",value:getAttr(attrs,"Shot IQ")},
+    {name:"Pass IQ",value:getAttr(attrs,"Pass IQ")},
+    {name:"Defensive Consistency",value:getAttr(attrs,"Defensive Consistency")},
+    {name:"Help Defense IQ",value:getAttr(attrs,"Help Defense IQ")},
+    {name:"Offensive Consistency",value:getAttr(attrs,"Offensive Consistency")},
+    {name:"Strength",value:getAttr(attrs,"Strength")}
+  ].sort((a,b)=>a.value-b.value);
+
+  const areas=developmentCandidates.slice(0,3).map(item=>item.name).join(", ");
+  return `NBA-ready skill is already present, but the most natural development areas are ${areas}.`;
+}
+
+function formatBuildText(build){
+  const player=build.player;
+  const attrs=build.attributes;
+  const tendencies=build.tendencies;
+  const badges=build.badges;
   const lines=[];
-  lines.push(`Position: ${p.position}  Secondary Position: ${p.secondaryPosition}`);
-  lines.push(`Height: ${p.height}  Weight: ${p.weight}  Wingspan: ${p.wingspan}`);
-  lines.push(`Body Type: ${p.bodyType}`);
+
+  lines.push("PLAYER SUMMARY");
+  lines.push(`• Name: ${player.name}`);
+  lines.push(`• Role: ${player.role}`);
+  if(player.draftTier) lines.push(`• Draft Tier: ${player.draftTier}`);
+  lines.push(`• Target OVR: ${player.ovr} (role hard cap: ${player.ovrHardCap})`);
+  lines.push(`• Generator OVR Estimate: ${player.estimatedOvr}`);
+  lines.push(`• Position: ${player.position}  Secondary Position: ${player.secondaryPosition}`);
+  lines.push(`• Height: ${player.height}  Weight: ${player.weight}  Wingspan: ${player.wingspan}`);
+  lines.push(`• Body Type: ${player.bodyType}`);
+  lines.push(`• Preset: ${player.presetDisplay}`);
+  if(player.presetDisplay!==player.presetResolved) lines.push(`• Random Preset Resolved As: ${player.presetResolved}`);
+  lines.push(`• Primary Strength: ${FAMILY_LABELS[player.identity.primary]}`);
+  lines.push(`• Secondary Strength: ${FAMILY_LABELS[player.identity.secondary]}`);
+  lines.push(`• Main Weakness: ${FAMILY_LABELS[player.identity.weakness]}`);
+  lines.push(`• NBA Path: ${player.nbaPath}`);
+  lines.push(`• Development: ${player.development}`);
   lines.push("");
-  lines.push(`Play Initiator: ${p.playInitiator}`);
-  lines.push(`Play Types: ${p.playTypes.length ? p.playTypes.join(", ") : "Balanced"}`);
+
+  lines.push(`Play Initiator: ${player.playInitiator}`);
+  lines.push(`Play Types: ${player.playTypes.length?player.playTypes.join(", "):"Balanced"}`);
   lines.push("");
 
   lines.push("ATTRIBUTES: OFFENSE");
-  for(const k of ATTR_FIELDS.OFFENSE) lines.push(`• ${k}: ${a.OFFENSE[k]}`);
+  for(const name of ATTR_FIELDS.OFFENSE) lines.push(`• ${name}: ${attrs.OFFENSE[name]}`);
   lines.push("");
 
   lines.push("ATTRIBUTES: DEFENSE");
-  for(const k of ATTR_FIELDS.DEFENSE) lines.push(`• ${k}: ${a.DEFENSE[k]}`);
+  for(const name of ATTR_FIELDS.DEFENSE) lines.push(`• ${name}: ${attrs.DEFENSE[name]}`);
   lines.push("");
 
   lines.push("ATTRIBUTES: ATHLETICISM");
-  for(const k of ATTR_FIELDS.ATHLETICISM) lines.push(`• ${k}: ${a.ATHLETICISM[k]}`);
+  for(const name of ATTR_FIELDS.ATHLETICISM) lines.push(`• ${name}: ${attrs.ATHLETICISM[name]}`);
   lines.push("");
 
   lines.push("ATTRIBUTES: MENTAL");
-  for(const k of ATTR_FIELDS.MENTAL) lines.push(`• ${k}: ${a.MENTAL[k]}`);
+  for(const name of ATTR_FIELDS.MENTAL) lines.push(`• ${name}: ${attrs.MENTAL[name]}`);
   lines.push("");
 
   lines.push("ATTRIBUTES: MISC");
-  for(const k of ATTR_FIELDS.MISC) lines.push(`• ${k}: ${a.MISC[k]}`);
+  for(const name of ATTR_FIELDS.MISC) lines.push(`• ${name}: ${attrs.MISC[name]}`);
   lines.push("");
 
   lines.push("TENDENCIES");
-  // Print in the same order as you provided (by iterating TENDENCY_RANGES keys)
-  for(const k of Object.keys(TENDENCY_RANGES)) lines.push(`• ${k}: ${t[k]}`);
+  for(const name of Object.keys(TENDENCY_RANGES)) lines.push(`• ${name}: ${tendencies[name]}`);
   lines.push("");
 
   lines.push("BADGES");
-  for(const x of b) lines.push(`• ${x.name} - ${x.level}`);
+  if(!badges.length){
+    lines.push("• None");
+  }else{
+    for(const badge of badges) lines.push(`• ${badge.name} - ${badge.level}`);
+  }
+
   return lines.join("\n");
 }
 
-/* =========================
-   8) UI Wiring
-   ========================= */
+/* =========================================================
+   8) UI
+   ========================================================= */
+
 document.getElementById("year").textContent=new Date().getFullYear();
 
 const roleTierEl=document.getElementById("roleTier");
 const positionEl=document.getElementById("position");
 const presetEl=document.getElementById("preset");
 const playInitiatorEl=document.getElementById("playInitiator");
+const draftTierEl=document.getElementById("draftTier");
+const draftTierWrap=document.getElementById("draftTierWrap");
 const playTypesWrap=document.getElementById("playTypes");
 const playTypeNotice=document.getElementById("playTypeNotice");
+const statusNotice=document.getElementById("statusNotice");
 const outEl=document.getElementById("out");
 const playerNameEl=document.getElementById("playerName");
+const copyBtn=document.getElementById("copyBtn");
 
 let selectedPlayTypes=new Set();
+let lastBuildText="";
 
 function populatePresets(pos){
   presetEl.innerHTML="";
-  for(const p of (PRESETS_BY_POS[pos]||["Balanced"])){
-    const opt=document.createElement("option");
-    opt.value=p; opt.textContent=p;
-    presetEl.appendChild(opt);
+  for(const preset of PRESETS_BY_POS[pos]||["Balanced"]){
+    const option=document.createElement("option");
+    option.value=preset;
+    option.textContent=preset;
+    presetEl.appendChild(option);
   }
+}
+
+function updateDraftTierVisibility(){
+  draftTierWrap.classList.toggle("hidden",roleTierEl.value!=="draft");
 }
 
 function updatePlayTypeNotice(){
   playTypeNotice.innerHTML=`Selected: <b>${selectedPlayTypes.size}</b> / 4`;
 }
 
+function showStatus(message,type="normal"){
+  statusNotice.className="notice";
+  if(type==="success") statusNotice.classList.add("success");
+  if(type==="warning") statusNotice.classList.add("warning");
+  statusNotice.innerHTML=message;
+}
+
 function renderPlayTypes(){
   playTypesWrap.innerHTML="";
-  for(const pt of PLAY_TYPES){
-    const lab=document.createElement("label");
-    lab.className="pill";
-    lab.innerHTML=`<input type="checkbox"><span>${pt}</span>`;
-    const cb=lab.querySelector("input");
-    cb.checked=selectedPlayTypes.has(pt);
-    cb.addEventListener("change",()=>{
-      if(cb.checked){
-        if(selectedPlayTypes.size>=4){ cb.checked=false; return; }
-        selectedPlayTypes.add(pt);
+
+  for(const playType of PLAY_TYPES){
+    const label=document.createElement("label");
+    label.className="pill";
+    label.innerHTML=`<input type="checkbox"><span>${playType}</span>`;
+    const checkbox=label.querySelector("input");
+    checkbox.checked=selectedPlayTypes.has(playType);
+
+    checkbox.addEventListener("change",()=>{
+      if(checkbox.checked){
+        if(selectedPlayTypes.size>=4){
+          checkbox.checked=false;
+          showStatus("You can select a maximum of <b>4 play types</b>.","warning");
+          return;
+        }
+        selectedPlayTypes.add(playType);
       }else{
-        selectedPlayTypes.delete(pt);
+        selectedPlayTypes.delete(playType);
       }
       updatePlayTypeNotice();
     });
-    playTypesWrap.appendChild(lab);
+
+    playTypesWrap.appendChild(label);
   }
+
   updatePlayTypeNotice();
+}
+
+function copyTextFallback(text){
+  const textArea=document.createElement("textarea");
+  textArea.value=text;
+  textArea.style.position="fixed";
+  textArea.style.opacity="0";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  const copied=document.execCommand("copy");
+  document.body.removeChild(textArea);
+  return copied;
 }
 
 populatePresets(positionEl.value);
 renderPlayTypes();
+updateDraftTierVisibility();
 
 positionEl.addEventListener("change",()=>{
   populatePresets(positionEl.value);
 });
+
+roleTierEl.addEventListener("change",updateDraftTierVisibility);
 
 document.getElementById("resetBtn").addEventListener("click",()=>{
   playerNameEl.value="";
   roleTierEl.value="star";
   positionEl.value="PG";
   playInitiatorEl.value="No";
+  draftTierEl.value="auto";
   selectedPlayTypes=new Set();
   populatePresets("PG");
   renderPlayTypes();
+  updateDraftTierVisibility();
   outEl.textContent="No build yet. Click “Generate Build”.";
+  lastBuildText="";
+  copyBtn.disabled=true;
+  showStatus("<b>OVR note:</b> The displayed OVR is this generator's target estimate. NBA 2K may calculate a slightly different OVR after you enter the ratings, so Intangibles is used as a balancing value without flattening the player's best skills.");
+});
+
+copyBtn.addEventListener("click",async()=>{
+  if(!lastBuildText) return;
+
+  let copied=false;
+  try{
+    if(navigator.clipboard&&window.isSecureContext){
+      await navigator.clipboard.writeText(lastBuildText);
+      copied=true;
+    }else{
+      copied=copyTextFallback(lastBuildText);
+    }
+  }catch(error){
+    copied=copyTextFallback(lastBuildText);
+  }
+
+  showStatus(
+    copied?"Build copied to your clipboard.":"Copy was blocked by the browser. Select the text in the output panel and copy it manually.",
+    copied?"success":"warning"
+  );
 });
 
 document.getElementById("generateBtn").addEventListener("click",()=>{
   const roleKey=roleTierEl.value;
   const pos=positionEl.value;
-  const preset=presetEl.value;
-  const playInitiatorYes=(playInitiatorEl.value==="Yes");
+  const selectedPreset=presetEl.value;
+  const presetInfo=resolvePreset(pos,selectedPreset);
+  const playInitiatorYes=playInitiatorEl.value==="Yes";
   const playTypes=[...selectedPlayTypes];
+  const draftTierKey=roleKey==="draft"?resolveDraftTier(draftTierEl.value):null;
 
-  // Secondary
-  const secondary=autoSecondary(pos);
+  const secondaryPosition=autoSecondary(pos);
+  const measurements=generatePhysicalMeasurements(pos,roleKey);
+  const {heightIn,weightLb,wingspanIn}=measurements;
 
-  // Physicals
-  const phys=PHYS_BY_POS[pos];
-  const heightIn=randInt(phys.height[0], phys.height[1]);
-  const weightLb=randInt(phys.weight[0], phys.weight[1]);
-  const wingspanIn=randInt(phys.wingspan[0], phys.wingspan[1]);
+  const initiatorFocus=emptyFocus();
+  if(playInitiatorYes){
+    initiatorFocus.play+=3;
+    initiatorFocus.pnrH+=2;
+  }
 
-  // Focus
   const focus=mergeFocus(
-    mergeFocus(baselineFocusFromPosition(pos), focusFromPlayTypes(playTypes)),
-    focusFromPresetName(preset)
+    baselineFocusFromPosition(pos),
+    focusFromPlayTypes(playTypes),
+    focusFromPresetName(presetInfo.resolved),
+    initiatorFocus
   );
 
-  // Attributes
-  const {ovr, attrs}=generateAttributes({roleKey,pos,focus,playInitiatorYes});
+  const generated=generateAttributes({
+    roleKey,
+    pos,
+    focus,
+    playInitiatorYes,
+    weightLb,
+    draftTierKey
+  });
 
-  // Tendencies
-  const tendencies=generateTendencies({pos,focus,playInitiatorYes});
+  const tendencies=generateTendencies({
+    roleKey,
+    pos,
+    focus,
+    playInitiatorYes,
+    attrs:generated.attrs,
+    ovr:generated.ovr
+  });
 
-  // Badges
-  const badges=generateBadges({roleKey,pos,focus});
+  const badges=generateBadges({
+    roleKey,
+    pos,
+    focus,
+    attrs:generated.attrs,
+    draftTierKey,
+    heightIn
+  });
 
-  const name=playerNameEl.value.trim() || `${pos} CPU Build (${preset})`;
+  const name=playerNameEl.value.trim()||`${pos} CPU Build (${presetInfo.resolved})`;
+  const ovrRange=roleOvrRange(roleKey,draftTierKey);
+  const playerSummaryContext={
+    roleKey,
+    attrs:generated.attrs,
+    identity:generated.identity
+  };
+
   const build={
     player:{
       name,
-      ovr,
-      role:roleTierEl.options[roleTierEl.selectedIndex].text,
+      ovr:generated.ovr,
+      estimatedOvr:generated.estimatedOvr,
+      ovrHardCap:ovrRange[1],
+      role:ROLE_RULES[roleKey].label,
+      draftTier:roleKey==="draft"?DRAFT_TIERS[draftTierKey].label:null,
       position:pos,
-      secondaryPosition:secondary,
+      secondaryPosition,
       height:inchesToFeet(heightIn),
       weight:`${weightLb} lbs`,
       wingspan:inchesToFeet(wingspanIn),
       bodyType:bodyTypeFrom(pos,weightLb),
       playInitiator:playInitiatorEl.value,
-      preset,
-      playTypes
+      presetDisplay:presetInfo.selected,
+      presetResolved:presetInfo.resolved,
+      playTypes,
+      identity:generated.identity,
+      nbaPath:describeNBAPath(playerSummaryContext),
+      development:developmentNotes(playerSummaryContext)
     },
-    attributes:attrs,
+    attributes:generated.attrs,
     tendencies,
     badges
   };
 
-  outEl.textContent=formatBuildText(build);
+  lastBuildText=formatBuildText(build);
+  outEl.textContent=lastBuildText;
+  copyBtn.disabled=false;
+
+  const stamina=getAttr(generated.attrs,"Stamina");
+  showStatus(
+    `Generated <b>${name}</b> at <b>${generated.ovr} target OVR</b>. Primary strength: <b>${FAMILY_LABELS[generated.identity.primary]}</b>. Stamina: <b>${stamina}</b>.`,
+    "success"
+  );
 });
 </script>
 </body>
